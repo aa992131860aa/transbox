@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name></display-name>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>DownloadServlet</servlet-name>
+		<servlet-class>com.life.servlet.DownloadServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UploadHandleServlet</servlet-name>
+		<servlet-class>com.life.servlet.UploadHandleServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>PushMessageServlet</servlet-name>
+		<servlet-class>com.life.servlet.PushMessageServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UploadFileServlet</servlet-name>
+		<servlet-class>com.life.servlet.UploadFileServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>SmsServlet</servlet-name>
+		<servlet-class>com.life.servlet.SmsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>SendSmsServlet</servlet-name>
+		<servlet-class>com.life.servlet.SendSmsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UserDaoServlet</servlet-name>
+		<servlet-class>com.life.servlet.UserDaoServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>TransferServlet</servlet-name>
+		<servlet-class>com.life.servlet.TransferServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>RongServlet</servlet-name>
+		<servlet-class>com.life.servlet.RongServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UploadFileIosServlet</servlet-name>
+		<servlet-class>com.life.servlet.UploadFileIosServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ContactServlet</servlet-name>
+		<servlet-class>com.life.servlet.ContactServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>WeatherSerlvet</servlet-name>
+		<servlet-class>com.life.servlet.WeatherSerlvet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>BoxServlet</servlet-name>
+		<servlet-class>com.life.servlet.BoxServlet</servlet-class>
+	</servlet>
+		<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UrlServlet</servlet-name>
+		<servlet-class>com.life.servlet.UrlServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>WeixinServlet</servlet-name>
+		<servlet-class>weixinService.servlet.WeixinServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>OpoServlet</servlet-name>
+		<servlet-class>com.life.servlet.OpoServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>UploadAppServlet</servlet-name>
+		<servlet-class>com.life.servlet.UploadAppServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>TransferRecordServlet</servlet-name>
+		<servlet-class>com.life.servlet.TransferRecordServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>QrCodeServlet</servlet-name>
+		<servlet-class>com.life.servlet.QrCodeServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>ChartServlet</servlet-name>
+		<servlet-class>com.life.servlet.ChartServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>MeServlet</servlet-name>
+		<servlet-class>com.life.servlet.MeServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>DownloadPdfServlet</servlet-name>
+		<servlet-class>com.life.servlet.DownloadPdfServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>YunBaServlet</servlet-name>
+		<servlet-class>com.yunba.YunBaServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<description>This is the description of my J2EE component</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>WorkloadServlet</servlet-name>
+		<servlet-class>com.life.servlet.WorkloadServlet</servlet-class>
+	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PlanLocationServlet</servlet-name>
+    <servlet-class>com.life.servlet.PlanLocationServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<servlet-mapping>
+		<servlet-name>WorkloadServlet</servlet-name>
+		<url-pattern>/workload.do</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet-mapping>
+		<servlet-name>DownloadServlet</servlet-name>
+		<url-pattern>/download.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UploadHandleServlet</servlet-name>
+		<url-pattern>/upload.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PushMessageServlet</servlet-name>
+		<url-pattern>/push.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UploadFileServlet</servlet-name>
+		<url-pattern>/upload_file.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SmsServlet</servlet-name>
+		<url-pattern>/sms.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SendSmsServlet</servlet-name>
+		<url-pattern>/sendSms.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserDaoServlet</servlet-name>
+		<url-pattern>/user.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TransferServlet</servlet-name>
+		<url-pattern>/transfer.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RongServlet</servlet-name>
+		<url-pattern>/rong.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UploadFileIosServlet</servlet-name>
+		<url-pattern>/upload_file_io.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ContactServlet</servlet-name>
+		<url-pattern>/contact.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WeatherSerlvet</servlet-name>
+		<url-pattern>/weather.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BoxServlet</servlet-name>
+		<url-pattern>/box.do</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>UrlServlet</servlet-name>
+		<url-pattern>/url.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WeixinServlet</servlet-name>
+		<url-pattern>/weixin.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>OpoServlet</servlet-name>
+		<url-pattern>/opo.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UploadAppServlet</servlet-name>
+		<url-pattern>/uploadApp.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TransferRecordServlet</servlet-name>
+		<url-pattern>/transferRecord.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>QrCodeServlet</servlet-name>
+		<url-pattern>/qrCode.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChartServlet</servlet-name>
+		<url-pattern>/chart.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MeServlet</servlet-name>
+		<url-pattern>/me.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DownloadPdfServlet</servlet-name>
+		<url-pattern>/downloadPdf.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>YunBaServlet</servlet-name>
+		<url-pattern>/yunba.do</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PlanLocationServlet</servlet-name>
+    <url-pattern>/planLocation.do</url-pattern>
+  </servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<listener>
+		<listener-class>com.life.servlet.ContextListener</listener-class>
+
+	</listener>
+</web-app>
