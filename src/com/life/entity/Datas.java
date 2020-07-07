@@ -2,7 +2,7 @@ package com.life.entity;
 
 public class Datas {
 	private int result;
-	private String msg;
+	private String msg="";
 	private Object obj;
 	public int getResult() {
 		return result;

@@ -5,16 +5,16 @@ import java.util.Date;
 import weixinService.domain.TextMessage;
 
 /*
- * ÏûÏ¢´¦Àí¹¤¾ßÀà
+ * ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 public class MessageUtil {
-	public static final String MSGTYPE_EVENT = "event";//ÏûÏ¢ÀàĞÍ--ÊÂ¼ş
-	public static final String MESSAGE_SUBSCIBE = "subscribe";//ÏûÏ¢ÊÂ¼şÀàĞÍ--¶©ÔÄÊÂ¼ş
-	public static final String MESSAGE_UNSUBSCIBE = "unsubscribe";//ÏûÏ¢ÊÂ¼şÀàĞÍ--È¡Ïû¶©ÔÄÊÂ¼ş
-	public static final String MESSAGE_TEXT = "text";//ÏûÏ¢ÀàĞÍ--ÎÄ±¾ÏûÏ¢
+	public static final String MSGTYPE_EVENT = "event";//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½--ï¿½Â¼ï¿½
+	public static final String MESSAGE_SUBSCIBE = "subscribe";//ï¿½ï¿½Ï¢ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½--ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+	public static final String MESSAGE_UNSUBSCIBE = "unsubscribe";//ï¿½ï¿½Ï¢ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½--È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+	public static final String MESSAGE_TEXT = "text";//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½--ï¿½Ä±ï¿½ï¿½ï¿½Ï¢
 	
 	/*
-	 * ×é×°ÎÄ±¾ÏûÏ¢
+	 * ï¿½ï¿½×°ï¿½Ä±ï¿½ï¿½ï¿½Ï¢
 	 */
 	public static String textMsg(String toUserName,String fromUserName,String content){
 		TextMessage text = new TextMessage();
@@ -27,18 +27,18 @@ public class MessageUtil {
 	}
 	
 	/*
-	 * ÏìÓ¦¶©ÔÄÊÂ¼ş--»Ø¸´ÎÄ±¾ÏûÏ¢
+	 * ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½--ï¿½Ø¸ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ï¢
 	 */
 	public static String subscribeForText(String toUserName,String fromUserName){
-		return textMsg(toUserName, fromUserName, "»¶Ó­¹Ø×¢£¬¾«²ÊÄÚÈİ²»Èİ´í¹ı£¡£¡£¡");
+		return textMsg(toUserName, fromUserName, "ï¿½ï¿½Ó­ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ²ï¿½ï¿½İ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	}
 	
 	/*
-	 * ÏìÓ¦È¡Ïû¶©ÔÄÊÂ¼ş
+	 * ï¿½ï¿½Ó¦È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	 */
 	public static String unsubscribe(String toUserName,String fromUserName){
-		//TODO ¿ÉÒÔ½øĞĞÈ¡¹ØºóµÄÆäËûºóĞøÒµÎñ´¦Àí
-		System.out.println("ÓÃ»§£º"+ fromUserName +"È¡Ïû¹Ø×¢~");
+		//TODO ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½È¡ï¿½Øºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
+
 		return "";
 	}
 }

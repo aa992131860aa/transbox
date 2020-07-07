@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta name="viewport"
+			content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>微澜研发内控平台</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./Plugs/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Animation CSS -->
+    <link href="./Plugs/css/animate.css" rel="stylesheet">
+    <link href="./Plugs/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./Plugs/css/style.css?t=4" rel="stylesheet">
+    <style type="text/css">
+        *
+        {
+            font-family: '微软雅黑', helvetica, arial, sans-serif;
+            
+        }
+        #features .row h2
+        {
+            font-weight:normal;
+        }
+        #features .row p,.features .row p
+        {
+            line-height:180%;
+        }
+        .landing-page .navbar-default .nav li a {
+            color: #fff;
+            font-family: '微软雅黑', helvetica, arial, sans-serif;
+            font-weight:normal;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 20px;
+            padding: 25px 20px 15px 20px;
+        }
+        .case-img
+        {
+            padding-left:10px;
+        }
+        .case-img ul li
+        {
+            float:left;
+            list-style:none;
+            margin:20px 23px;
+        }
+    </style>
+</head>
+<body id="page-top" class="landing-page">
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<a class="navbar-brand" href="index.html">WEBAPPLAYERS</a>-->
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="#page-top">首页</a></li>
+                        <li><a class="page-scroll" href="#features">特点</a></li>
+                        <li><a class="page-scroll" href="#testimonials">案例</a></li>
+                        <li><a class="page-scroll" href="#pricing">产品</a></li>
+                        <li><a class="page-scroll" href="#contact">联系</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel fadeIn" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1 style="font-size:30px;font-weight:normal;line-height:150%;">微澜<br/>
+                        生命科学及医学创新<br/>
+                        研发内控云平台</h1>
+                    <p style="font-weight:normal;font-size:18px;">—“嗯，性价比最高的专业研发内控平台”</p>
+                    <p>
+                        <a class="btn btn-lg btn-primary" href="/default.aspx" role="button"  style="font-weight:normal;">立即试用</a>
+                    </p>
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <img src="./Plugs/img/landing/laptop.png" alt="laptop"/>
+                </div>
+            </div>
+            <div class="header-back one"></div>
+        </div>
+        <div class="item ">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1 style="font-size:30px;font-weight:normal;line-height:150%;">轻量公共云<br/>
+                        大客户定制企业云<br/>
+                        轻量级研发数据全自动备份服务</h1>
+                    <p style="font-weight:normal;font-size:18px;">—“为您的研发提供全方位性价比解决方案”</p>
+                    <p>
+                        <a class="btn btn-lg btn-primary" href="/default.aspx" role="button"  style="font-weight:normal;">立即使用</a>
+                    </p>
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <img src="./Plugs/img/landing/laptop.png" alt="laptop"/>
+                </div>
+            </div>
+            <div class="header-back two"></div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<section id="features" class="container services ">
+    <div class="row">
+        <div class="col-sm-3">
+            <h2>资产库存管理</h2>
+            <p>为研发提供极简，快速的试剂耗材管理，自动入库，任意分库存，领用，低量报警等必要功能，也有大型资产（设备，场地）的登记，预约，审批等管理。</p>
+        </div>
+        <div class="col-sm-3">
+            <h2>申购审批统计</h2>
+            <p>物品及服务采购分类，支持短信及微信推送操作，也支持任意层级的审批架构及规则；采购统计可随时提供经费预算使用情况。</p>
+        </div>
+        <div class="col-sm-3">
+            <h2>简易人事财务</h2>
+            <p>一键导出报销单，成员通讯录，开票物流信息，差旅请假审批及出勤统计，必须有的都有。</p>
+        </div>
+        <div class="col-sm-3">
+            <h2>设备场地预约</h2>
+            <p>不仅是列表，我们还支持大型设备，公共场地的内部共享，预约，联系及使用记录。</p>
+        </div>
+    </div>
+</section>
+
+<section  class=" features container">
+
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1 style="font-weight:normal;line-height:160%;padding-bottom:20px;">省钱，省力，完美内控<br/> <span class="navy"> 支持全手工到全自动管理</span> </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-center wow fadeInLeft">
+            <div>
+                <i class="fa fa-puzzle-piece features-icon"></i>
+                <h2 style="font-weight:normal;">为生命科学及医学创新量身定制</h2>
+                <p style="font-weight:normal;">专业化模块及流程设计，脱胎于全球数万生命科学及医学创新研发单位的通用管理模式，极简，极速，去除一切不必要操作。</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-stumbleupon features-icon"></i>
+                <h2>从审批到入库全自动流转</h2>
+                <p>服务整个研发生命周期，全自动标准化的申购及库存信息流转，支持无限级的审批流程设计，还有领用，预约，低库存预警，一键订购等高级功能。</p>
+            </div>
+        </div>
+        <div class="col-md-6 text-center  wow zoomIn">
+            <img src="./Plugs/img/landing/perspective.png" alt="dashboard" class="img-responsive">
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div>
+                <i class="fa fa-weixin features-icon"></i>
+                <h2>无缝对接微信</h2>
+                <p>审批，申购，通知，预约，请假等信息全部支持微信实时推送，无需繁琐下载APP。功能无缝整合入微信公众号，可直接手机操作，随时随地管理。</p>
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-cogs features-icon"></i>
+                <h2>员工，高管，财务分级权限</h2>
+                <p>支持多账号，多入口登陆。分离日常操作，财务审核，差假统计， 高管全局统计分析。可按需开通。</p>
+            </div>
+        </div>
+    </div>
+        
+    
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1 style="font-weight:normal;line-height:160%">90秒，了解微澜</h1>
+        </div>
+    </div>
+    <div class="row features-block">
+        <div class="col-lg-6 features-text wow fadeInLeft">
+            <h2>从服务实验室到研发企业</h2>
+            <p>自2014年起，微澜的雏形系统“WEILAB实验室”服务了江浙沪几乎所有的985大学及其他数家高校研究所，收获数百家实验室好评，为院校节约数百万采购经费，流转内部审批数十万次。</p>
+            <p>2017年，微澜开始为生命科学及医学医药领域的研发创新企业提供极简，极速的研发内控平台，为研发，初创型企业大量节约管理及采购成本。也为孵化器，园区等创新企业集群提供统一管理方案。</p>
+        </div>
+        <div class="col-lg-6 text-right wow fadeInRight">
+            <video src="http://www.weilab.cn/video/intro.mp4" controls="controls" width="457" height="289"></video>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
+<section id="testimonials" class="navy-section testimonials" style="margin-top: 60px">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center wow zoomIn">
+                <i class="fa fa-comment big-icon"></i>
+                <h1>
+                    看用户如何评价我们
+                </h1>
+                <div class="testimonials-text">
+                    <i style="line-height:150%;font-style:normal;font-size:16px; padding-top:20px;display:inline-block;">“都是很简洁的功能，却找不到替代品！”</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="comments gray-section" style="margin-top: 0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>我们的案例</h1>
+                <!--<p>Donec sed odio dui. Etiam porta sem malesuada. </p>-->
+            </div>
+        </div>
+        <div class="case-img">
+            <ul>
+                <li><img src="/images/case-1.jpg" /></li>
+                <li><img src="/images/case-10.jpg" /></li>
+                <li><img src="/images/case-2.jpg" /></li>
+                <li><img src="/images/case-3.jpg" /></li>
+                <li><img src="/images/case-4.jpg" /></li>
+                <li><img src="/images/case-6.jpg" /></li>
+                <li><img src="/images/case-7.jpg" /></li>
+                <li><img src="/images/case-8.jpg" /></li>
+                <li><img src="/images/case-9.jpg" /></li>
+                <li><img src="/images/case-5.jpg" /></li>
+
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>其他的专业功能</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <h2>高管专享的全局掌控及分析</h2>
+                <i class="fa fa-desktop big-icon pull-right"></i>
+                <p>高管专用账号可以同时管理公司下所有或任意指定部门的各类研发信息，同时拥有跨部门高级审批权限设置，也可以查看各部门和公司的资产采购统计分析。</p>
+            </div>
+            <div class="col-lg-5 features-text">
+                <h2>财务专享的快速报销填写及出差请假统计</h2>
+                <i class="fa fa-bar-chart big-icon pull-right"></i>
+                <p>专为财务人员定制，界面及其简洁，整合快捷的记账，采购单核对导出，报销单自动填写，及统计出勤出差率等常用模块。</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 features-text">
+                <h2>大型资产的部门间共享预约 </h2>
+                <i class="fa fa-share-alt big-icon pull-right"></i>
+                <p>大型资产（包括会议室，场地，设备等）可指定负责人及使用模式，支持有无审批共享，有无预约共享，以及是否支持跨部门或跨公司的共享范围。同时支持维修停用等状态调整。</p>
+            </div>
+            <div class="col-lg-5 features-text">
+                <h2>定制开发及配套智能硬件</h2>
+                <i class="fa fa-gavel big-icon pull-right"></i>
+                <p>可为客户进行专业需求模块定制，端口对接及其他开发。同时提供配套的智能硬件系统，如为研发数据安全定制的全自动备份服务器“微云”，以及独家研发的智能VIP客服设备“微呼”等。</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section id="pricing" class="pricing">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>产品</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 wow zoomIn" style="padding-bottom:10px;">
+                <ul class="pricing-plan list-unstyled">
+                    <li class="pricing-title">
+                        大客户定制
+                    </li>
+                    <li class="pricing-desc">
+                        针对企事业，高校，实验室，研究所，孵化器，园区等进行定制化开发
+                    </li>
+                    <li class="pricing-price">
+                        部署服务器及专用域名
+                    </li>
+                    <li>
+                        对接统一账号系统及其他管理系统
+                    </li>
+                    <li>
+                        定制开发模块
+                    </li>
+                    <li>
+                        无限数量的独立子单位及监管平台
+                    </li>
+                    <li>
+                        层级式设备/场地共享及预约功能
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-xs" href="javascript:;">联系我们：400-168-0985</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 wow zoomIn" style="padding-bottom:20px;">
+                <ul class="pricing-plan list-unstyled selected">
+                    <li class="pricing-title">
+                        微澜云内控平台
+                    </li>
+                    <li class="pricing-desc">
+                        适合单一部门的小企业或团队使用<br/>包含日常所有功能
+                    </li>
+<!--                    <li class="pricing-price">
+                        *完全免费
+                    </li>-->
+                    <li>
+                        专用入口
+                    </li>
+                    <li>
+                        全功能开放
+                    </li>
+                    <li>
+                        任意级审批设置
+                    </li>
+                    <li>
+                        可创建多个公司
+                    </li>
+                    <li>
+                        可支持多个部门
+                    </li>
+                    <li class="plan-action">
+                        <a class="btn btn-primary btn-xs" href="/default.aspx">立即试用</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 wow zoomIn">
+                <ul class="pricing-plan list-unstyled">
+                    <li class="pricing-title">
+                        微云全自动数据备份系统
+                    </li>
+                    <li class="pricing-desc">
+                        为研发数据安全定制的轻量级全自动备份服务器系统，性价比首选。
+                    </li>
+                    <li class="pricing-price">
+                        10元/天起
+                    </li>
+                    <li>
+                        全自动，多重备份，容量可扩，外网隔离
+                    </li>
+                    <li>
+                        断电保护，删除恢复，加密存储
+                    </li>
+                    <li>
+                        体积小巧，可任意放置，做看的见的备份
+                    </li>
+                    <li>
+                        免费试用，随时退换，VIP支持
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-xs" target="_blank" href="weinas.pdf">详细介绍</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!--        <div class="row m-t-lg">
+            <div class="col-lg-10 col-lg-offset-1 text-center m-t-lg">
+                <p>*免费账号用户仅允许创建1个公司，支持1个部门，上限20人。如需额外添加，请联系我们。<br/></p>
+            </div>
+        </div>-->
+    </div>
+
+</section>
+
+<section id="contact" class="gray-section contact">
+    <div class="container">
+        <div class="row m-b-lg" style="margin-bottom:0;">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>联系我们</h1>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg" style="margin-top:20px;">
+                <address style="font-size:16px;line-height:170%;">
+                    <span class="navy" style="font-size:18px;">上海微澜互联网科技有限公司</span><br/>
+                    地址：剑川路951号零号湾<br/>
+                    电话：400-168-0985
+                </address>
+                <p>&copy; 2017 <br/>沪ICP备16052253号
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mainly scripts -->
+<script src="./Plugs/js/jquery-2.1.1.js"></script>
+<script src="./Plugs/js/bootstrap.js"></script>
+<script src="./Plugs/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="./Plugs/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="./Plugs/js/inspinia.js"></script>
+<script src="./Plugs/js/plugins/pace/pace.min.js"></script>
+<script src="./Plugs/js/plugins/wow/wow.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function (event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+            $("#navbar").collapse('hide');
+        });
+    });
+
+    var cbpAnimatedHeader = (function () {
+        var docElem = document.documentElement,
+                header = document.querySelector('.navbar-default'),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener('scroll', function (event) {
+                if (!didScroll) {
+                    didScroll = true;
+                    setTimeout(scrollPage, 250);
+                }
+            }, false);
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if (sy >= changeHeaderOn) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+    new WOW().init();
+
+</script>
+
+</body>
+</html>

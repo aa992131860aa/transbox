@@ -1,0 +1,499 @@
+@font-face {
+  font-family: 'Ruizi';
+  src: url('../fonts/ruizizhenyan.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Youshe';
+  src: url('../fonts/youshebiaotihei.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'PingFang';
+  src: url('../fonts/PingFang-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+*,p {
+  margin: 0;
+  padding: 0;
+  border:0;
+}
+.index {
+  position: relative;
+  background-image: url(../i/背景图.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin: 0px auto;
+  width:640px;
+  height:4306px;
+}
+.logo {
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  width:23px;
+  height:25px;
+  background-image: url(../i/green.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.title {
+  position: absolute;
+  top: 60px;
+  left: 63px;
+  width:172px;
+  height:25px;
+  font-size:18px;
+  font-family:'PingFang';
+  font-weight:600;
+  color:rgba(206,195,255,1);
+  line-height:25px;
+  letter-spacing:1px;
+}
+.top-img {
+  position: absolute;
+  top: 98px;
+  width: 100%;
+  height: 674px;
+  background-image: url(../i/插图-顶.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.wen-img {
+  position: absolute;
+  top: 148px;
+  left: 15px;
+  width: 591px;
+  height: 110px;
+  background-image: url(../i/大标题.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.wen-title {
+  position: absolute;
+  top: 251px;
+  left: 116px;
+  width:388px;
+  height:95px;
+  font-size:24px;
+  font-family:'Ruizi';
+  font-weight:400;
+  color:rgba(255,226,0,1);
+  line-height:30px;
+  letter-spacing:1px;
+  background:linear-gradient(121deg, rgba(255,211,0,1) 0%, rgba(255,115,0,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color:transparent;
+}
+.num-t-m {
+  position: absolute;
+  top: 769px;
+  left: 30px;
+  width:23px;
+  height:48px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-t-w {
+  position: absolute;
+  top: 777px;
+  left: 101px;
+  width:96px;
+  height:31px;
+  font-size:30px;
+  font-family:'Ruizi';
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:31px;
+  letter-spacing:1px;
+}
+.num-t-z {
+  position: absolute;
+  top: 797px;
+  left: 53px;
+  width:35px;
+  height:43px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-t-j {
+  position: absolute;
+  top: 816px;
+  left: 101px;
+  width:230px;
+  height:25px;
+  font-size:18px;
+  font-family:'PingFang';
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:25px;
+  letter-spacing:1px;
+}
+.num-t-k {
+  position: absolute;
+  top: 876px;
+  left: 30px;
+  width:580px;
+  height:214px;
+  background:rgba(255,255,255,1);
+  border-radius:20px;
+}
+.num-t-b,
+.num-m-b,
+.num-l-b {
+  position: absolute;
+  top: 848px;
+  left: 67px;
+  width: 506px;
+  height: 62px;
+  background-image: url(../i/装饰矩形.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.num-t-d {
+  position: absolute;
+  top: 909px;
+  left: 100px;
+  width:440px;
+  height:95px;
+  font-size:28px;
+  font-family:'Youshe';
+  color:rgba(58,25,197,1);
+  text-align: left!important;
+}
+.keshi,
+.name {
+  padding: 0%!important;
+}
+#doc-ipt-3,
+#doc-ipt-4,
+#doc-ipt-5,
+#doc-ipt-pwd-2 {
+  position: absolute;
+  top: -3px;
+  left: -43px;
+  font-family: 'Youshe';
+  /*-web-kit-appearance:none;
+  -moz-appearance: none; */
+  border-top-style: none!important;
+  border-left-style: none!important;
+  border-right-style: none!important;
+  border-bottom-style: dashed;
+  border-bottom-width: 4px;
+  border-color:rgba(58,25,197,1);
+}
+#doc-ipt-pwd-2 {
+  position: absolute;
+  width: 116%;
+  left: -90px;
+}
+.num-t-sha,
+.num-m-sha,
+.num-l-sha {
+  position: absolute;
+  top: 1016px;
+  left: 30px;
+  width:580px;
+  height:74px;
+  background:rgba(221,224,255,1);
+  border-radius:0px 0px 20px 20px;
+}
+.num-t-sw {
+  position: absolute;
+  top: 1027px;
+  left: 99px;
+  width:442px;
+  height:52px;
+  font-size:28px;
+  font-family:'Youshe';
+  color:rgba(58,25,197,1);
+  line-height:51px;
+  letter-spacing:1px;
+}
+.num-m-m {
+  position: absolute;
+  top: 1120px;
+  left: 30px;
+  width:23px;
+  height:48px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-m-z {
+  position: absolute;
+  top: 1148px;
+  left: 53px;
+  width:35px;
+  height:43px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-m-w {
+  position: absolute;
+  top: 1128px;
+  left: 101px;
+  width:228px;
+  height:31px;
+  font-size:30px;
+  font-family:'Ruizi';
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:31px;
+  letter-spacing:1px;
+}
+.num-m-j {
+  position: absolute;
+  top: 1167px;
+  left: 101px;
+  width:268px;
+  height:25px;
+  font-size:18px;
+  font-family:'PingFang';
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:25px;
+  letter-spacing:1px;
+}
+.num-m-k {
+  position: absolute;
+  top: 1230px;
+  left: 30px;
+  width:580px;
+  height:1182px;
+  background:rgba(255,255,255,1);
+  border-radius:20px;
+}
+.num-m-b {
+  position: absolute;
+  top: 1199px;
+  left: 67px;
+  z-index: 22;
+}
+.num-m-sha {
+  position: absolute;
+  top: 1230px;
+  left: 30px;
+  height:108px;
+  border-radius:20px 20px 0px 0px;
+}
+.num-m-sw {
+  position: absolute;
+  top: 1272px;
+  left: 95px;
+  width:450px;
+  height:48px;
+  font-size:30px;
+  font-family:'Youshe';
+  color:rgba(58,25,197,1);
+  line-height:39px;
+  text-align: center;
+}
+#doc-ipt-pwd-2 {
+  position: absolute;
+  width: 121%;
+  left: -87px;
+}
+label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+.num-m-1 {
+  position: absolute;
+  top: 1368px;
+  left: 60px;
+  width: 86%;
+}
+.am-radio {
+  padding-left:0;
+}
+.qes-wen {
+  width:548px;
+  height:46px;
+  font-size:28px;
+  font-family:'PingFang';
+  font-weight:700!important;
+  color:rgba(58,25,197,1);
+  line-height:40px;
+}
+.qes-wen-1 {
+  position: relative;
+  width:30%;
+  height:33px;
+  /* font-size:24px;
+  font-family:'PingFang';
+  font-weight:300!important;
+  color:rgba(58,25,197,1);
+  line-height:33px; */
+}
+.input_st {
+  width:27px;
+  height:27px;
+  background:rgba(59,25,197,1);
+}
+.qes-wen-2 {
+  position: absolute;
+  display: inline-block;
+  width: 80%;
+  height: 100%;
+  font-size:24px;
+  font-family:'PingFang';
+  font-weight:300!important;
+  color:rgba(58,25,197,1);
+  line-height:33px;
+}
+.qes-wen-2_b {
+  width: 120%;
+}
+.qes-wen-6 {
+  width:530px;
+  height: 80px;
+}
+#doc-ipt-4,
+#doc-ipt-5 {
+  top: -44px;
+  left: -14px;
+  border-bottom-style:solid;
+}
+.num-l-m {
+  position: absolute;
+  top: 2442px;
+  left: 30px;
+  width:23px;
+  height:48px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-l-z {
+  position: absolute;
+  top: 2470px;
+  left: 53px;
+  width:35px;
+  height:43px;
+  font-size:36px;
+  font-family:'Helvetica';
+  color:rgba(255,255,255,1);
+  line-height:43px;
+  letter-spacing:2px;
+}
+.num-l-w {
+  position: absolute;
+  top: 2450px;
+  left: 101px;
+  width:228px;
+  height:31px;
+  font-size:30px;
+  font-family:'Ruizi';
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:31px;
+  letter-spacing:1px;
+}
+.num-l-j {
+  position: absolute;
+  top: 2489px;
+  left: 101px;
+  width:268px;
+  height:25px;
+  font-size:18px;
+  font-family:'PingFang';
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  line-height:25px;
+  letter-spacing:1px;
+}
+.num-l-k {
+  position: absolute;
+  top: 2552px;
+  left: 30px;
+  width:580px;
+  height:1182px;
+  background:rgba(255,255,255,1);
+  border-radius:20px;
+}
+.num-l-b {
+  position: absolute;
+  top: 2521px;
+  left: 67px;
+  z-index: 22;
+}
+.num-l-sha {
+  position: absolute;
+  top: 2552px;
+  left: 30px;
+  height:108px;
+  border-radius:20px 20px 0px 0px;
+}
+.num-l-sw {
+  position: absolute;
+  top: 2594px;
+  left: 95px;
+  width:450px;
+  height:48px;
+  font-size:30px;
+  font-family:'Youshe';
+  color:rgba(58,25,197,1);
+  line-height:39px;
+  text-align: center;
+}
+.btn {
+  position: absolute;
+  left: 30px;
+  top: 3786px;
+  width:580px;
+  height:92px;
+  background:linear-gradient(180deg,rgba(255,240,0,1) 0%,rgba(255,234,0,1) 50%,rgba(249,151,35,1) 100%);
+  border-radius:46px;
+  z-index: 22;
+}
+.button {
+  position: absolute;
+  top: 27px;
+  left: 210px;
+  width:160px;
+  height:38px;
+  font-size:36px;
+  font-family:'Ruizi';
+  font-weight:400;
+  color:rgba(246,74,0,1);
+  line-height:37px;
+  letter-spacing:4px;
+  z-index: 23;
+}
+.btnsha {
+  position: absolute;
+  top: 3792px;
+  left: 30px;
+  width:580px;
+  height:92px;
+  background:linear-gradient(180deg,rgba(255,169,0,1) 0%,rgba(255,234,0,1) 50%,rgba(233,62,0,1) 100%);
+  border-radius:46px;
+}
+.dimg {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-image: url(../i/插画-底1.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  width: 640px;
+  height: 358px;
+}

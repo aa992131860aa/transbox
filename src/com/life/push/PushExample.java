@@ -68,7 +68,7 @@ public class PushExample {
 		String  a = "1000s";
 		long c = 1000l;
 		Long.parseLong(a);
-		//System.out.println();
+
 	}
 
 	// 使用 NettyHttpClient 异步接口发送请求
@@ -147,7 +147,7 @@ public class PushExample {
 				.setNotification(
 						Notification.newBuilder().addPlatformNotification(
 								IosNotification.newBuilder().setAlert(ALERT)
-										.setBadge(5).setSound("happy")
+										.setBadge(0).setSound("happy")
 										.addExtra("from", "JPush").build())
 								.build()).setMessage(
 						Message.content(content)).setOptions(
@@ -176,7 +176,7 @@ public class PushExample {
 				.setNotification(
 						Notification.newBuilder().addPlatformNotification(
 								IosNotification.newBuilder().setAlert(ALERT)
-										.setBadge(5).setSound("happy")
+										.setBadge(0).setSound("happy")
 										.addExtra("from", "JPush").build())
 								.build()).setMessage(
 						Message.content(content)).setOptions(
@@ -221,7 +221,7 @@ public class PushExample {
 						try {
 							PushResult result = jpushClient.sendPush(payload);
 							LOG.info("Got result - " + result);
-							//System.out.println("got result:" + result);
+
 
 						} catch (APIConnectionException e) {
 							LOG.error("Connection error. Should retry later. ",
@@ -233,14 +233,10 @@ public class PushExample {
 									.error(
 											"Error response from JPush server. Should review and fix it. ",
 											e);
-							//System.out.println("HTTP Status: " + e.getStatus());
-							//System.out.println("Error Code: " + e.getErrorCode());
-							//System.out.println("Error Message: " + e.getErrorMessage());
-							//System.out.println("Msg ID: " + e.getMsgId());
-							//System.out .println("Sendno: " + payload.getSendno());
+
 						}
 
-						//System.out.println("耗时" + (System.currentTimeMillis() - start) + "毫秒 sendCount:" + (++sendCount));
+
 					}
 				}
 			};
@@ -372,7 +368,7 @@ public class PushExample {
 												"extra_value").build()).build())
 				.build();
 
-		//System.out.println(payload.toJSON());
+
 	}
 
 	public static PushPayload buildPushObject_ios_tagAnd_alertWithExtrasAndMessage() {
@@ -381,7 +377,7 @@ public class PushExample {
 				.setNotification(
 						Notification.newBuilder().addPlatformNotification(
 								IosNotification.newBuilder().setAlert(ALERT)
-										.setBadge(5).setSound("happy")
+										.setBadge(0).setSound("happy")
 										.addExtra("from", "JPush").build())
 								.build()).setMessage(
 						Message.content(MSG_CONTENT)).setOptions(

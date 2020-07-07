@@ -34,10 +34,28 @@ public class Record implements Serializable{
     private String voltage;
     private String trueTemperature;
     private String other;
+    private String boxTemperature;
+    private String altitude;
     
     
 
-    public int getId() {
+    public String getAltitude() {
+		return altitude;
+	}
+
+	public void setAltitude(String altitude) {
+		this.altitude = altitude;
+	}
+
+	public String getBoxTemperature() {
+		return boxTemperature;
+	}
+
+	public void setBoxTemperature(String boxTemperature) {
+		this.boxTemperature = boxTemperature;
+	}
+
+	public int getId() {
 		return id;
 	}
 
@@ -193,15 +211,20 @@ public class Record implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Record [collision=" + collision + ", currentCity="
-				+ currentCity + ", distance=" + distance + ", duration="
-				+ duration + ", expendPower=" + expendPower + ", humidity="
-				+ humidity + ", latitude=" + latitude + ", longitude="
-				+ longitude + ", open=" + open + ", power=" + power
-				+ ", recordAt=" + recordAt + ", temperature=" + temperature
-				+ ", transferId=" + transferId + ", transfer_id=" + transfer_id
-				+ "]";
+		return "Record [altitude=" + altitude + ", boxTemperature="
+				+ boxTemperature + ", collision=" + collision
+				+ ", currentCity=" + currentCity + ", distance=" + distance
+				+ ", duration=" + duration + ", expendPower=" + expendPower
+				+ ", humidity=" + humidity + ", id=" + id + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", open=" + open
+				+ ", other=" + other + ", power=" + power + ", recordAt="
+				+ recordAt + ", remark=" + remark + ", temperature="
+				+ temperature + ", transferId=" + transferId + ", transfer_id="
+				+ transfer_id + ", trueTemperature=" + trueTemperature
+				+ ", voltage=" + voltage + "]";
 	}
+
+ 
     
 	
 

@@ -1,5 +1,6 @@
 package com.life.servlet;
 
+import com.life.controller.UserDao;
 import io.rong.util.HttpUtil;
 
 import java.io.BufferedReader;
@@ -71,6 +72,7 @@ public class PushMessageServlet extends HttpServlet {
 		response.setHeader("content-type", "text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
+		response.addHeader("Access-Control-Allow-Origin", "*");
 
 		// String push_content = request.getParameter("push_content");
 		// if (push_content != null) {
@@ -92,7 +94,7 @@ public class PushMessageServlet extends HttpServlet {
 
 			if ("add".equals(action)) {
 
-				//System.out.println("push.do add " + new Date());
+
 				String phone = request.getParameter("phone");
 				String content = request.getParameter("content");
 				String otherId = request.getParameter("otherId");
@@ -162,6 +164,7 @@ public class PushMessageServlet extends HttpServlet {
 			else if ("clearUnreadPushMessageNum".equals(action)) {
 				String user_info_id = request.getParameter("user_info_id");
 			    pushMessageDao.clearUnreadPushMessageNum(user_info_id);
+			    new UserDao().updatePushPostion(user_info_id);
 		
 			}
 
@@ -173,7 +176,7 @@ public class PushMessageServlet extends HttpServlet {
 		} else {
 			datas.setResult(CONST.BAD_PARAM);
 			datas.setMsg("action 参数错误");
-			//System.out.println("action 参数错误");
+
 		}
 		out.write(gson.toJson(datas));
 		out.flush();

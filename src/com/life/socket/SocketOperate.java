@@ -53,7 +53,7 @@ public class SocketOperate extends Thread {
 				// MethodHandler mh = new
 				// MethodHandler(ReadXML.readXML(strXML.toString()));
 				// String resultXML = mh.getResultXML();
-				// System.out.println("返回："+resultXML.toString());
+
 
 				// if(!"".equals(resultXML)){
 				 out.print(strXML.toString());

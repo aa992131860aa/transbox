@@ -73,6 +73,7 @@ public class DownloadServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		try {
@@ -113,8 +114,7 @@ public class DownloadServlet extends HttpServlet {
 				+ "op.contactPerson op_contactPerson,op.contactPhone op_contactPhone,op.remark op_remark,op.createAt "
 				+ "op_createAt,op.modifyAt op_modifyAt from transfer t,organ o,box b,hospital h,transferPerson tp,opo op where  b.boxid = t.box_id and h.hospitalid = t.to_hosp_id and o.organid "
 				+ "= t.organ_id and tp.transferPersonid = t.transferPerson_id and op.opoid = t.opo_id and t.transferid = ?";
-          //System.out.println(sql);
-          //System.out.println(transfer_id);
+
 		return new ConnectionDB().excuteQuery(sql, o);
 	}
 
@@ -182,7 +182,7 @@ public class DownloadServlet extends HttpServlet {
 		// 获取目标文件的绝对路径
 		String fullFileName = getServletContext().getRealPath(
 				"/" + File.separator + "download" + File.separator + filename);
-		// System.out.println(fullFileName);
+
 		// 读取文件
 		FileInputStream in = new FileInputStream(fullFileName);
 		OutputStream out = response.getOutputStream();

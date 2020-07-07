@@ -45,6 +45,7 @@ public class WeatherSerlvet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		String action = request.getParameter("action");
@@ -83,7 +84,7 @@ public class WeatherSerlvet extends HttpServlet {
 	    if("hour".equals(type)){
 	    	path = "/hour24";
 	    }
-	    System.out.println(path);
+
 	    String method = "GET";
 	    String appcode = "eaf3191467744512810610f412e0d77b";
 	    String result="";
@@ -112,9 +113,9 @@ public class WeatherSerlvet extends HttpServlet {
 	    	*/
 	    	HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
 	    	result = EntityUtils.toString(response.getEntity());
-	    	//System.out.println("GG"+response.toString());
+
 	    	//获取response的body
-	    	//System.out.println(result);
+
 	    	
 	    	return result;
 	    } catch (Exception e) {

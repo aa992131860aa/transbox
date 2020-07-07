@@ -6,495 +6,1221 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-import com.life.entity.Blood;
-import com.life.entity.BoxUse;
-import com.life.entity.OpoInfo;
-import com.life.entity.TransferRecord;
+import com.life.entity.*;
+import com.life.transfer.MyHandler;
+import com.life.utils.CONST;
+import com.life.utils.CommUtils;
 import com.life.utils.ConnectionDB;
-import com.mysql.jdbc.Statement;
+import org.apache.mina.core.session.IoSession;
 
 public class BoxDao {
-	private ConnectionDB connDB = new ConnectionDB();
-
-	// 创建数据库连接对象
-	private Connection conn = null;
-
-	public void testSql() {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-		String sql = "SELECT COUNT(id) FROM transferRecord WHERE transfer_id = ? GROUP BY latitude";
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, "2064");
-			rs = ps.executeQuery();
-			int temp = -1;
-			while(rs.next()){
-				temp++;
-				if(temp==1){
-					break;
-				}
-				//System.out.println(temp);
-				
-				
-				
-			}
-			//System.out.println("row:"+temp);
-		} catch (Exception e) {
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-	}
-
-	public static void main(String[] args) {
-		BoxDao boxDao = new BoxDao();
-//      插入树兰未录入的数据
-//		1662 机场       1755 火车站
-		List<TransferRecord> tr = boxDao.test("2584", "2018-08-23","1662");
-		for (int i = 0; i < tr.size(); i++) {
-			boxDao.insertTest(tr.get(i));
-			System.out.println("start:" + i + "," + tr.size());
-		}
- 
-
-	}
-
-	public boolean getBoxNoStatus(String boxNo) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
-	 
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, boxNo);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String organSeg = rs.getString("organSeg");
-				if (organSeg.contains("AP")) {
-					return true;
-				}
-			}else{
-				return true;
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return false;
-	}
-
-	public String  autoTransferOrganSeg(String boxNo) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
-	 
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, boxNo);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String organSeg = rs.getString("organSeg");
-				if (organSeg.contains("AP")) {
-					 //停止转运
-					return organSeg;
-				}
-			} 
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		 return null;
-	}
-	
-	/**
-	 * 收集箱子信息
-	 */
-	public int setBoxIMEI(String device) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "insert ignore into device_temp(device,createTime) values(?,?)";
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, device);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			ps.setString(2, sdf.format(new Date()));
-			return ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return 0;
-
-	}
-
-	public String getBoxId(String boxNo) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "select boxid from box where model = ? ";
-		//System.out.println("boxNo:" + boxNo);
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, boxNo);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String boxid = rs.getString("boxid");
-				return boxid;
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return "";
-	}
-	
-	public String getBoxNo(String deviceId) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "select model from box where deviceId = ? ";
-		//System.out.println("boxNo:" + boxNo);
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, deviceId);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String boxid = rs.getString("model");
-				return boxid;
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return "";
-	}
-
-	public List<BoxUse> getBoxUses(String hospital) {
-		ResultSet rs = null;
-		ResultSet rsUse = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-		List<BoxUse> boxUses = new ArrayList<BoxUse>();
-
-		String sql = "select b.id id,model boxNo,transferStatus from box b,hospital h where b.hosp_id = h.hospitalid and h.`name` = ?  and b.model<>'99999' order by b.model+0";
-
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, hospital);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				BoxUse boxUse = new BoxUse();
-				boxUse.setBoxId(rs.getInt("id"));
-				boxUse.setBoxNo(rs.getString("boxNo"));
-				boxUse.setTransferStatus(rs.getString("transferStatus"));
-				if ("free".equals(boxUse.getTransferStatus())) {
-					boxUse.setStatus("");
-					// boxUse.setBoxNo(rs.getString("boxNo"));
-				} else {
-					boxUse.setStatus("使用中");
-					// boxUse.setBoxNo(rs.getString("boxNo")+" 使用中");
-				}
-				
-				
-				sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
-				ps = conn.prepareStatement(sql);
-				ps.setString(1, boxUse.getBoxNo());
-				rsUse = ps.executeQuery();
-				if (rsUse.next()) {
-					String organSeg = rsUse.getString("organSeg");
-					if (organSeg.contains("AP")) {
-						boxUse.setStatus("自动转运中");
-						boxUse.setTransferStatus("free");
-					}
-				} 
-				
-		
-
-				boxUses.add(boxUse);
-
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-			connDB.closeAll(rsUse, ps, conn);
-		}
-		return boxUses;
-	}
-
-	public List<TransferRecord> test(String transfer_id, String time,String method) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		List<TransferRecord> transferRecords = new ArrayList<TransferRecord>();
-
-		// String sql =
-		// "select b.id id,model boxNo,transferStatus from box b,hospital h where b.hosp_id = h.hospitalid and h.`name` = ?  and b.model<>'99999' order by b.model+0";
-
-		// 调用SQL
-		try {
-
-			String sql = "select tr.id,tr.transferRecordid,tr.transfer_id,tr.type,tr.currentCity,tr.distance,tr.duration,tr.remark,tr.longitude,tr.latitude,tr.temperature,tr.avgTemperature,tr.power,tr.expendPower,tr.humidity,tr.recordAt,tr.dbStatus,tr.createAt,tr.modifyAt,tr.press1,tr.press2,tr.flow1,tr.flow2,tr.pupple,tr.collision,tr.open from transferRecord tr,transfer t where tr.transfer_id = t.id  and t.id = ?     ";
-			// 调用SQL
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, method);
-
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				TransferRecord t = new TransferRecord();
-				t.setTransfer_id(transfer_id);
-				// t.setTransferRecordId(1756);
-				t.setAvgTemperature(rs.getString("avgTemperature"));
-				t.setCreateAt(rs.getString("createAt"));
-				t.setCurrentCity(rs.getString("currentCity"));
-				t.setDbStatus(rs.getString("dbStatus"));
-
-				t.setDistance((int) (Double.parseDouble(rs
-						.getString("distance")))
-						+ "");
-				t.setDuration(rs.getString("duration"));
-				t.setExpendPower(rs.getString("expendPower"));
-				t.setFlow1(rs.getString("flow1"));
-				t.setFlow2(rs.getString("flow2"));
-				t.setHumidity(rs.getString("humidity"));
-				t.setLatitude(rs.getString("latitude"));
-				t.setLongitude(rs.getString("longitude"));
-				t.setModifyAt(rs.getString("modifyAt"));
-				t.setPower(rs.getString("power"));
-				t.setPress1(rs.getString("press1"));
-				t.setPress2(rs.getString("press2"));
-				String recordAt = rs.getString("recordAt");
-				String re = time + " " + recordAt.split(" ")[1];
-				t.setRecordAt(re);
-
-				t.setRemark(rs.getString("remark"));
-
-				t.setTemperature(rs.getString("temperature"));
-
-				t.setType(rs.getString("type"));
-				t.setPupple(rs.getString("pupple"));
-				t.setCollision((int) (Double.parseDouble(rs
-						.getString("collision")))
-						+ "");
-				t
-						.setOpen((int) (Double
-								.parseDouble(rs.getString("open")))
-								+ "");
-				transferRecords.add(t);
-			}
-
-			for (int i = 0; i < transferRecords.size(); i++) {
-				// System.out.println(transferRecords.get(i).getRecordAt()+","+transferRecords.get(i).getTransfer_id());
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return transferRecords;
-	}
-
-	public String insertTest(TransferRecord t) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "insert into transferRecord"
-				+ "(transfer_id,createAt,currentCity,dbStatus,distance,duration,expendPower,flow1,flow2,humidity,latitude,longitude,"
-				+ "modifyAt,power,press1,press2,recordAt,remark,temperature,type,pupple,collision,open) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, t.getTransfer_id());
-			ps.setString(2, t.getCreateAt());
-
-			ps.setString(3, t.getCurrentCity());
-			ps.setString(4, t.getDbStatus());
-
-			ps.setString(5, t.getDistance());
-			ps.setString(6, t.getDuration());
-			ps.setString(7, t.getExpendPower());
-			ps.setString(8, t.getFlow1());
-			ps.setString(9, t.getFlow2());
-			ps.setString(10, t.getHumidity());
-			ps.setString(11, t.getLatitude());
-			ps.setString(12, t.getLongitude());
-			ps.setString(13, t.getModifyAt());
-			ps.setString(14, t.getPower());
-			ps.setString(15, t.getPress1());
-			ps.setString(16, t.getPress2());
-
-			ps.setString(17, t.getRecordAt());
-
-			ps.setString(18, t.getRemark());
-
-			ps.setString(19, t.getTemperature());
-
-			ps.setString(20, t.getType());
-			ps.setString(21, t.getPupple());
-			ps.setString(22, t.getCollision());
-			ps.setString(23, t.getOpen());
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//System.out.println(e.getMessage());
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return "";
-	}
-
-	public String getHospId(String boxNo) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-
-		String sql = "select hosp_id from box where model = ? ";
-		//System.out.println("boxNo:" + boxNo);
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, boxNo);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String hosp_id = rs.getString("hosp_id");
-				return hosp_id;
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return "";
-	}
-
-	public int updateBoxStatus(String boxNo, String transferStatus) {
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		conn = connDB.getConnection();
-		int update = 0;
-		String sql = "update box set transferStatus = ?  where model = ? ";
-		// 调用SQL
-		try {
-
-			ps = conn.prepareStatement(sql);
-
-			ps.setString(1, transferStatus);
-			ps.setString(2, boxNo);
-			update = ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} finally {
-			connDB.closeAll(rs, ps, conn);
-		}
-		return update;
-	}
-
-	// public static void main(String[] args) {
-	// ConnectionDB connDB = new ConnectionDB();
-	//
-	// // 创建数据库连接对象
-	// Connection conn = null;
-	// ResultSet rs = null;
-	// PreparedStatement ps = null;
-	// conn = connDB.getConnection();
-	// List<OpoInfo> opoInfos = new ArrayList<OpoInfo>();
-	//		 
-	// // 调用SQL
-	// try {
-	// String sql = "select id,contactName,contactPhone from opo_info";
-	//	
-	//
-	// ps = conn.prepareStatement(sql);
-	// rs = ps.executeQuery();
-	// while(rs.next()){
-	// OpoInfo opoInfo = new OpoInfo();
-	// opoInfo.setId(rs.getInt("id"));
-	// opoInfo.setContactName(rs.getString("contactName"));
-	// opoInfo.setContactPhone(rs.getString("contactPhone"));
-	// opoInfos.add(opoInfo);
-	// }
-	// for(int i=0;i<opoInfos.size()/2;i++){
-	// sql =
-	// "insert into opo_info_contact(opoInfoId,contactName,contactPhone) values(?,?,?)";
-	// ps = conn.prepareStatement(sql);
-	// ps.setInt(1, opoInfos.get(i).getId());
-	// ps.setString(2, opoInfos.get(i).getContactName());
-	// ps.setString(3, opoInfos.get(i).getContactPhone());
-	// ps.executeUpdate();
-	// }
-	//			
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	//
-	// } finally {
-	// connDB.closeAll(rs, ps, conn);
-	// }
-	// }
+    private ConnectionDB connDB = new ConnectionDB();
+
+    // 创建数据库连接对象
+    private Connection conn = null;
+
+    public void testSql() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String sql = "SELECT COUNT(id) FROM transferRecord WHERE transfer_id = ? GROUP BY latitude";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "2064");
+            rs = ps.executeQuery();
+            int temp = -1;
+            while (rs.next()) {
+                temp++;
+                if (temp == 1) {
+                    break;
+                }
+
+
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+    }
+    static int bb = 0;
+    public static void main(String[] args) {
+
+
+        //2833  2998 3287
+        // 插入树兰未录入的数据
+        // 1662 机场 1755 火车站
+        //2871 4.94h     2753 1.06h
+        //3243,3261,3239,3237,3229   武汉市武昌区
+        //3228,3238,3248,3253                           武汉黄陂区
+        //3266  金华市婺城区
+        //3262  长沙市长沙县
+
+        //3227,3236,3245
+        //3250
+//        BoxDao boxDao = new BoxDao();
+//		List<TransferRecord> tr = boxDao.test("3448", "2020-04-04", "1662");
+//		for (int i = 0; i < tr.size(); i++) {
+//			boxDao.insertTest(tr.get(i));
+//
+//		}
+//        System.out.println("time:" + new Date().getTime());
+
+        Blood blood = new Blood();
+        BoxDao.bb = 1;
+        blood.setId( BoxDao.bb);
+        System.out.println(blood.getId());
+        BoxDao.bb = 0;
+        System.out.println(blood.getId());
+
+//        boxDao.gainRountLatLng();
+
+//        List<LatLon> latLonList = boxDao.gainLonlatTemp("3");
+//        List<TransferRecord> transferRecordList = boxDao.getTempRecord(3247);
+//        int size = transferRecordList.size();
+//        int num = size / latLonList.size();
+//        System.out.println("latlonSIze:" + latLonList.size() + ",transferRecordList:" + transferRecordList.size());
+//        for (int i = 0; i < size; i++) {
+//            int temp = i / num;
+//
+//            System.out.println("temp:" + temp + ",size:" + size + ",num:" + num);
+//            if (temp >= latLonList.size()) {
+//                temp = latLonList.size() - 1;
+//            }
+//            boxDao.updateLatlng(latLonList.get(temp).getLongitude(), latLonList.get(temp).getLatitude(), transferRecordList.get(i).getTransferRecordId());
+//
+//        }
+    }
+
+    public int insertQuestion(Question question) {
+        ResultSet rs = null;
+
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        int result = 0;
+
+        try {
+
+
+            String sql = "INSERT INTO question(department,name,app_sel1,app_sel2,app_sel3,app_sel4,app_sel5,app_sel6,app_suggest,device_sel1,device_sel2,device_sel3,device_sel4,device_sel5,device_sel6,device_suggest) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            // 调用SQL
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, question.getDepartment());
+            ps.setString(2, question.getName());
+            ps.setInt(3, question.getApp_sel1());
+            ps.setInt(4, question.getApp_sel2());
+            ps.setInt(5, question.getApp_sel3());
+            ps.setInt(6, question.getApp_sel4());
+            ps.setInt(7, question.getApp_sel5());
+            ps.setInt(8, question.getApp_sel6());
+            ps.setString(9, question.getApp_suggest());
+            ps.setInt(10, question.getDevice_sel1());
+            ps.setInt(11, question.getDevice_sel2());
+            ps.setInt(12, question.getDevice_sel3());
+            ps.setInt(13, question.getDevice_sel4());
+            ps.setInt(14, question.getDevice_sel5());
+            ps.setInt(15, question.getDevice_sel6());
+            ps.setString(16, question.getDevice_suggest());
+            result = ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return result;
+    }
+
+    /**
+     * 获取转运记录
+     *
+     * @param
+     * @return
+     */
+    public List<TransferRecord> getTempRecord(int transferId) {
+        ResultSet rs = null;
+
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        List<TransferRecord> transferRecords = new ArrayList<TransferRecord>();
+
+        try {
+
+
+            String sql = "select tr.id,tr.transferRecordid,tr.transfer_id,tr.type,tr.currentCity,tr.distance,tr.duration,tr.remark,tr.longitude,tr.latitude,tr.temperature,tr.avgTemperature,tr.power,tr.expendPower,tr.humidity,DATE_FORMAT(tr.recordAt,'%H:%i') recordAt,tr.recordAt recordAtAll,tr.dbStatus,tr.createAt,tr.modifyAt,tr.collision,tr.open  from transferRecord tr,transfer t where tr.transfer_id = t.id  and t.id = ? and tr.humidity <> '0.0'  and  longitude <> '0.0' "
+
+                    + "    ORDER BY recordAtAll ASC   ";
+            // 调用SQL
+            System.out.println("sql:" + sql);
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, transferId);
+
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                TransferRecord t = new TransferRecord();
+                t.setTransferRecordId(rs.getInt("id"));
+                t.setAvgTemperature(rs.getString("avgTemperature"));
+                t.setCreateAt(rs.getString("createAt"));
+                t.setCurrentCity(rs.getString("currentCity"));
+                t.setDbStatus(rs.getString("dbStatus"));
+
+                t.setDistance((int) (Double.parseDouble(rs
+                        .getString("distance")))
+                        + "");
+                t.setDuration(rs.getString("duration"));
+                t.setExpendPower(rs.getString("expendPower"));
+
+                t.setHumidity(rs.getString("humidity"));
+                t.setLatitude(rs.getString("latitude"));
+                t.setLongitude(rs.getString("longitude"));
+                t.setModifyAt(rs.getString("modifyAt"));
+                t.setPower(rs.getString("power"));
+
+                t.setRecordAt(rs.getString("recordAt"));
+                t.setRemark(rs.getString("remark"));
+                DecimalFormat df = new DecimalFormat("######0"); // 四色五入转换成整数
+                String temperature = rs.getString("temperature").substring(0,
+                        rs.getString("temperature").indexOf(".", 0) + 2);
+                t.setTemperature(temperature);
+                t.setTransfer_id(rs.getString("transfer_id"));
+                t.setType(rs.getString("type"));
+
+                t.setCollision((int) (Double.parseDouble(rs
+                        .getString("collision")))
+                        + "");
+                t
+                        .setOpen((int) (Double
+                                .parseDouble(rs.getString("open")))
+                                + "");
+                transferRecords.add(t);
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return transferRecords;
+    }
+
+    public List<LatLon> gainLonlatTemp(String time) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "SELECT  * FROM  lonlat_temp WHERE  `time`=?";
+        List<LatLon> latLonList = new ArrayList<>();
+        // 调用SQL
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, time);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                double longitude = rs.getDouble("longitude");
+                double latitude = rs.getDouble("latitude");
+                LatLon latLon = new LatLon();
+                latLon.setLongitude(longitude);
+                latLon.setLatitude(latitude);
+                int id = rs.getInt("id");
+                if (id % 5 == 0) {
+                    latLonList.add(latLon);
+                }
+
+                System.out.println(longitude + "," + latitude);
+            }
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            //CommUtils.insertTransboxErrorFile("insertTest=" + e.getMessage() + "=参数" + t.toString());
+
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return latLonList;
+    }
+
+    public void gainRountLatLng() {
+        String str = "29.863747,121.573647=29.863571,121.573448=29.863333,121.573357=29.86322,121.573372=29.863083,121.573387=29.862982,121.573479=29.862982,121.573479=29.862801,121.573372=29.862665,121.573296=29.862665,121.573296=29.862877,121.572731=29.862877,121.572639=29.863106,121.572006=29.863472,121.570969=29.863703,121.570328=29.863638,121.570305=29.863407,121.57093=29.863037,121.571976=29.862818,121.572601=29.862431,121.573677=29.862383,121.573814=29.862026,121.574677=29.862019,121.574699=29.861362,121.576347=29.861156,121.576904=29.861094,121.577049=29.860838,121.577713=29.860798,121.577812=29.860392,121.578896=29.860273,121.57917=29.859964,121.580002=29.859964,121.580002=29.859306,121.579681=29.857929,121.579063=29.85648,121.578438=29.855452,121.577972=29.855387,121.57795=29.853525,121.577141=29.853098,121.57695=29.852909,121.576851=29.852383,121.576622=29.852226,121.576553=29.85174,121.57634=29.85154,121.576233=29.851307,121.576103=29.850834,121.575798=29.850374,121.575401=29.850191,121.575226=29.849854,121.574852=29.849831,121.574829=29.849735,121.574699=29.848724,121.573433=29.848534,121.573174=29.848169,121.572731=29.846533,121.570572=29.846453,121.570473=29.846262,121.570229=29.845947,121.569817=29.845469,121.569176=29.845192,121.568817=29.844681,121.568146=29.84404,121.567299=29.843903,121.567154=29.843788,121.567093=29.843788,121.567093=29.843407,121.567032=29.842468,121.566864=29.842278,121.566826=29.841406,121.566666=29.840746,121.566544=29.840746,121.566544=29.840677,121.566422=29.840651,121.566299=29.840664,121.566223=29.840755,121.566032=29.840979,121.565628=29.840979,121.565628=29.841316,121.564949=29.841585,121.56443=29.841654,121.564255=29.841702,121.564087=29.841732,121.563957=29.841745,121.563805=29.84174,121.563652=29.841715,121.563461=29.841654,121.563225=29.841215,121.562019=29.839472,121.554855=29.838957,121.552734=29.838867,121.552368=29.837374,121.546165=29.837076,121.544746=29.836863,121.543648=29.836689,121.542587=29.836493,121.541336=29.836308,121.539902=29.836184,121.538719=29.836042,121.537239=29.835941,121.535698=29.835876,121.534157=29.835859,121.533295=29.835855,121.531746=29.835869,121.530754=29.835873,121.530548=29.835928,121.528984=29.835947,121.528534=29.836006,121.527031=29.836052,121.52607=29.836094,121.524879=29.83642,121.516708=29.836472,121.515289=29.836649,121.51091=29.836758,121.508789=29.836836,121.507141=29.836897,121.506241=29.836962,121.505417=29.83708,121.504311=29.83721,121.503357=29.837381,121.502388=29.837635,121.501205=29.837826,121.50045=29.83802,121.499733=29.838255,121.498993=29.838642,121.497887=29.838867,121.497299=29.838924,121.497154=29.839285,121.4963=29.839991,121.494827=29.840221,121.494392=29.840885,121.493225=29.841398,121.492439=29.841827,121.491806=29.842245,121.491226=29.842777,121.490555=29.843086,121.490158=29.843758,121.48938=29.844408,121.488701=29.845074,121.488045=29.845604,121.487556=29.84635,121.486923=29.846485,121.486816=29.846905,121.486481=29.848087,121.485626=29.849854,121.484444=29.854557,121.481308=29.855452,121.480667=29.856594,121.479813=29.858004,121.478676=29.858547,121.47821=29.859335,121.477524=29.859873,121.477043=29.860838,121.476128=29.861116,121.475861=29.862089,121.474869=29.871529,121.464844=29.871822,121.464523=29.872774,121.463516=29.874632,121.4617=29.875151,121.46122=29.875759,121.46067=29.877617,121.459076=29.878906,121.458061=29.880339,121.457016=29.882296,121.455673=29.882812,121.455345=29.883179,121.455101=29.88415,121.454506=29.885086,121.453949=29.892408,121.449692=29.893797,121.448868=29.897154,121.446915=29.898903,121.445854=29.899982,121.445152=29.900974,121.444435=29.901966,121.443642=29.902813,121.442894=29.902851,121.442871=29.903872,121.441895=29.904413,121.441345=29.904781,121.440941=29.904945,121.440765=29.905516,121.440094=29.906254,121.439209=29.9074,121.437759=29.911215,121.432869=29.912445,121.431305=29.913652,121.429733=29.914322,121.428833=29.914768,121.428185=29.915178,121.427528=29.915756,121.426552=29.91577,121.426521=29.916193,121.425728=29.916567,121.424957=29.916836,121.424355=29.917105,121.423706=29.917427,121.422882=29.917601,121.422394=29.91786,121.421547=29.918037,121.420898=29.918179,121.420418=29.918657,121.418579=29.91888,121.417549=29.920534,121.410576=29.920692,121.409935=29.921007,121.408821=29.921362,121.407715=29.921835,121.406494=29.922283,121.40551=29.922764,121.404572=29.923,121.404144=29.923532,121.403259=29.923834,121.402802=29.924149,121.402367=29.924805,121.401497=29.925308,121.400909=29.92588,121.400269=29.92635,121.39978=29.926758,121.399376=29.927174,121.398987=29.92724,121.398926=29.929731,121.396675=29.930656,121.395882=29.93177,121.394852=29.932444,121.394257=29.933811,121.392967=29.934523,121.392258=29.9354,121.391289=29.935968,121.390625=29.936996,121.38929=29.937727,121.388237=29.937742,121.388214=29.938246,121.387444=29.938711,121.386665=29.938971,121.386223=29.939613,121.385025=29.939657,121.384941=29.939831,121.38459=29.940277,121.383644=29.940834,121.38237=29.942036,121.379517=29.942499,121.378387=29.943098,121.376953=29.943447,121.376144=29.944258,121.374413=29.944796,121.373199=29.945343,121.372124=29.946676,121.369743=29.947565,121.368279=29.948481,121.366852=29.948729,121.366486=29.948862,121.366287=29.951784,121.362114=29.952646,121.360855=29.953016,121.36026=29.953588,121.359268=29.953815,121.358841=29.954592,121.357254=29.95495,121.3564=29.955387,121.355225=29.955473,121.35498=29.955803,121.353882=29.956001,121.353165=29.957777,121.346252=29.958464,121.343887=29.958912,121.342545=29.95923,121.341637=29.959627,121.340553=29.959713,121.340317=29.960056,121.339439=29.960569,121.338211=29.961142,121.336906=29.961435,121.336273=29.962999,121.333008=29.968525,121.321442=29.969601,121.319191=29.9699,121.318588=29.970488,121.317513=29.970703,121.317154=29.971138,121.316452=29.971571,121.315804=29.972204,121.314941=29.972904,121.31411=29.97397,121.312927=29.9751,121.311775=29.975706,121.311127=29.975798,121.311028=29.976137,121.310661=29.976797,121.309868=29.977161,121.30938=29.977413,121.309006=29.9778,121.30838=29.978243,121.307564=29.978565,121.306862=29.978937,121.305908=29.979235,121.30497=29.979418,121.304237=29.979504,121.303841=29.979631,121.303123=29.979717,121.302521=29.979826,121.30146=29.980301,121.296074=29.980423,121.294479=29.980881,121.28907=29.981689,121.279503=29.981884,121.277145=29.982018,121.275345=29.982391,121.271683=29.982626,121.269989=29.982901,121.268295=29.982996,121.2677=29.983116,121.267082=29.983311,121.26609=29.983675,121.264412=29.983967,121.263176=29.984505,121.261154=29.984995,121.259491=29.985332,121.25843=29.985743,121.257217=29.986202,121.255928=29.986822,121.254318=29.987089,121.253639=29.987719,121.252014=29.988077,121.251083=29.988628,121.249657=29.988953,121.24881=29.98954,121.247276=29.989922,121.24617=29.990269,121.245117=29.990564,121.244171=29.991011,121.242638=29.991407,121.241127=29.991653,121.240128=29.991932,121.238876=29.992258,121.237259=29.99246,121.236076=29.992674,121.234726=29.992701,121.234535=29.992865,121.233276=29.993019,121.231895=29.993374,121.228188=29.993555,121.22657=29.993692,121.225533=29.993919,121.22406=29.99402,121.223442=29.994076,121.223145=29.994236,121.222282=29.994404,121.221451=29.994827,121.219566=29.995226,121.217972=29.9956,121.216637=29.996229,121.214592=29.997339,121.211334=29.997608,121.210564=29.998037,121.209305=29.999022,121.206398=29.999245,121.205704=29.999817,121.203743=30.000078,121.202797=30.000422,121.201439=30.000486,121.201172=30.000902,121.199295=30.001244,121.197533=30.001444,121.196365=30.001661,121.194916=30.001902,121.193138=30.002136,121.190773=30.002266,121.188972=30.002356,121.186996=30.002386,121.18541=30.002365,121.18322=30.002291,121.181114=30.002182,121.179199=30.001776,121.171555=30.001585,121.167786=30.001562,121.166939=30.001516,121.165184=30.001497,121.164024=30.001493,121.163757=30.001503,121.162041=30.001539,121.160027=30.001623,121.158073=30.001661,121.157326=30.001671,121.157227=30.001749,121.155922=30.001808,121.155083=30.003195,121.135323=30.003201,121.135254=30.003311,121.133957=30.003468,121.132553=30.003611,121.131401=30.003658,121.131065=30.003839,121.129868=30.003902,121.129501=30.004116,121.128281=30.004293,121.127396=30.0047,121.125534=30.005022,121.124229=30.005264,121.123337=30.005829,121.121384=30.006243,121.120071=30.006788,121.118477=30.00736,121.116982=30.007496,121.116638=30.008183,121.114975=30.008652,121.11393=30.008949,121.113281=30.009239,121.112679=30.009764,121.111603=30.009878,121.111382=30.010473,121.110252=30.01111,121.1091=30.01195,121.107697=30.012838,121.10627=30.013256,121.105637=30.014227,121.104225=30.014648,121.103645=30.014877,121.10334=30.015417,121.102623=30.016129,121.101715=30.017054,121.100578=30.024805,121.091309=30.025633,121.090332=30.026024,121.089867=30.027483,121.088081=30.028316,121.087021=30.029531,121.085304=30.030005,121.084602=30.030365,121.084038=30.03079,121.083344=30.031567,121.081985=30.031876,121.081398=30.032322,121.080544=30.032478,121.080231=30.03307,121.078957=30.033421,121.078148=30.033937,121.076897=30.034439,121.075577=30.035053,121.073822=30.035391,121.072815=30.03546,121.072617=30.035473,121.072586=30.036558,121.069374=30.036575,121.069336=30.036617,121.069206=30.036772,121.068764=30.03698,121.068146=30.037249,121.067345=30.038406,121.063911=30.039297,121.061295=30.041506,121.054794=30.041899,121.053703=30.042522,121.052071=30.043467,121.049706=30.044472,121.047363=30.045122,121.045837=30.045578,121.044731=30.047213,121.040886=30.047604,121.039879=30.048264,121.038155=30.048552,121.037331=30.049591,121.034035=30.0499,121.032906=30.050287,121.031349=30.050583,121.030106=30.051319,121.026657=30.051584,121.025383=30.053425,121.016571=30.053829,121.014664=30.054293,121.012695=30.054892,121.010506=30.055334,121.008987=30.055984,121.006981=30.056416,121.005783=30.05678,121.004829=30.056992,121.004288=30.057272,121.003571=30.057335,121.00341=30.058594,121.000305=30.059553,120.997894=30.060873,120.994598=30.061262,120.993507=30.061476,120.992897=30.061804,120.991768=30.061926,120.99128=30.062088,120.990448=30.062214,120.989891=30.062355,120.988983=30.06251,120.987762=30.062578,120.986595=30.062595,120.985847=30.062595,120.985161=30.062586,120.984848=30.062542,120.984207=30.062487,120.983383=30.062418,120.982758=30.062218,120.981445=30.062195,120.9813=30.061939,120.980125=30.061693,120.979179=30.061649,120.97905=30.061611,120.978912=30.061266,120.977859=30.060907,120.976891=30.06053,120.975967=30.058594,120.971413=30.056871,120.967407=30.053459,120.959465=30.051535,120.955017=30.047604,120.945831=30.046661,120.943626=30.046284,120.942665=30.045782,120.941185=30.045259,120.939308=30.04505,120.938332=30.044901,120.937531=30.044895,120.9375=30.044708,120.936256=30.044645,120.935608=30.044548,120.934349=30.044504,120.93322=30.044548,120.931259=30.044662,120.929825=30.044744,120.929054=30.044931,120.927864=30.046606,120.919342=30.047365,120.915527=30.047604,120.914291=30.048086,120.911858=30.048801,120.908348=30.049011,120.907166=30.049513,120.904678=30.050146,120.90155=30.05055,120.899475=30.050802,120.898056=30.051046,120.89666=30.05139,120.894363=30.051485,120.893555=30.051601,120.89257=30.051844,120.890137=30.05205,120.88736=30.052145,120.885185=30.052166,120.883842=30.052166,120.880402=30.052166,120.879074=30.052214,120.878181=30.052305,120.876007=30.052422,120.874016=30.052588,120.872078=30.052645,120.871582=30.052799,120.870125=30.053087,120.86795=30.053438,120.86573=30.053921,120.863129=30.054266,120.861511=30.054663,120.859787=30.054935,120.858696=30.055361,120.857063=30.055994,120.854889=30.057652,120.849609=30.058594,120.846634=30.063576,120.830757=30.064144,120.828903=30.064505,120.827637=30.064644,120.82711=30.06506,120.825523=30.065512,120.823654=30.065783,120.822441=30.066067,120.821037=30.066416,120.819221=30.066862,120.816452=30.067217,120.813759=30.06743,120.81176=30.0676,120.80983=30.067656,120.808998=30.067764,120.806854=30.067781,120.806488=30.067808,120.805664=30.067839,120.803917=30.067846,120.802948=30.067818,120.800842=30.067791,120.799774=30.067699,120.797646=30.067535,120.794983=30.067499,120.794365=30.067469,120.793839=30.06745,120.793495=30.067354,120.791962=30.067263,120.789986=30.067186,120.787415=30.067171,120.786194=30.067173,120.785072=30.067186,120.784096=30.06719,120.783691=30.067236,120.782127=30.067295,120.780373=30.067369,120.779068=30.067532,120.776848=30.067644,120.775589=30.067831,120.773727=30.068098,120.771553=30.068243,120.770554=30.068401,120.769402=30.068802,120.766914=30.068924,120.766045=30.069145,120.76432=30.069317,120.762497=30.069384,120.761719=30.069401,120.761414=30.069494,120.759727=30.069578,120.757034=30.069632,120.755119=30.069649,120.754265=30.0697,120.752617=30.06999,120.742256=30.070061,120.739738=30.070133,120.737274=30.070147,120.736954=30.070177,120.736053=30.070286,120.733803=30.070429,120.732101=30.070803,120.728828=30.071201,120.726128=30.071758,120.723244=30.072088,120.721741=30.072565,120.719749=30.073097,120.717781=30.073191,120.717422=30.073668,120.715797=30.074467,120.71331=30.07552,120.71032=30.076384,120.708076=30.077286,120.705956=30.077822,120.704727=30.07848,120.703339=30.079809,120.700638=30.080341,120.699593=30.080564,120.699181=30.080797,120.698746=30.082344,120.695961=30.082436,120.695793=30.087364,120.686935=30.088015,120.68573=30.088881,120.684036=30.089312,120.683159=30.089882,120.681931=30.090508,120.680496=30.091208,120.678802=30.091549,120.677917=30.091654,120.67765=30.092222,120.676117=30.092924,120.674026=30.092981,120.673828=30.093269,120.672913=30.093702,120.67144=30.094027,120.670219=30.094744,120.667259=30.095091,120.665619=30.095282,120.664597=30.096619,120.656883=30.097435,120.652214=30.097496,120.651855=30.097591,120.651253=30.098333,120.647377=30.098406,120.647034=30.09848,120.646667=30.098734,120.645531=30.099318,120.643051=30.100113,120.640038=30.100725,120.637878=30.101093,120.63665=30.10161,120.635048=30.102341,120.632889=30.102539,120.632317=30.103382,120.629883=30.103653,120.629082=30.104294,120.627235=30.105482,120.62384=30.106146,120.622025=30.106453,120.621239=30.107058,120.619751=30.107441,120.618843=30.107868,120.617851=30.108259,120.616997=30.108438,120.616623=30.109476,120.614479=30.110638,120.612251=30.111002,120.61158=30.111553,120.610611=30.112196,120.609528=30.113203,120.60791=30.113525,120.607399=30.114922,120.605171=30.115734,120.603844=30.116184,120.603073=30.1171,120.601433=30.118046,120.599632=30.118679,120.598343=30.11964,120.596268=30.120192,120.594994=30.120716,120.593681=30.121489,120.591652=30.122305,120.589279=30.122856,120.587517=30.12322,120.58625=30.123306,120.585938=30.123734,120.58429=30.12451,120.581039=30.124874,120.579521=30.125147,120.578377=30.125238,120.577988=30.127235,120.569618=30.127691,120.56768=30.127737,120.567459=30.127787,120.56723=30.128593,120.563965=30.129284,120.561081=30.130013,120.558189=30.130825,120.555222=30.131203,120.553886=30.1318,120.551895=30.132517,120.549606=30.133316,120.547173=30.133564,120.546486=30.134562,120.543686=30.134949,120.542732=30.13526,120.541992=30.135496,120.541451=30.135572,120.541283=30.135969,120.540443=30.136303,120.539795=30.137089,120.538353=30.137348,120.537918=30.137899,120.537003=30.138466,120.536148=30.138903,120.53553=30.139631,120.534599=30.140255,120.533821=30.140978,120.532997=30.142401,120.531548=30.14319,120.530815=30.144657,120.529594=30.145399,120.529022=30.146484,120.528221=30.146563,120.52816=30.146866,120.527946=30.15085,120.524971=30.151245,120.524673=30.152044,120.524109=30.152765,120.523567=30.153124,120.5233=30.154388,120.522354=30.155296,120.52169=30.155611,120.521461=30.156481,120.52079=30.157469,120.520073=30.157539,120.52002=30.162613,120.516243=30.164198,120.515068=30.164913,120.514534=30.166407,120.513405=30.168139,120.512001=30.168455,120.511719=30.168934,120.511292=30.169476,120.51078=30.170065,120.510216=30.171238,120.508972=30.171885,120.508232=30.172304,120.507721=30.173338,120.506447=30.173937,120.5056=30.174801,120.504318=30.175213,120.503677=30.175678,120.502899=30.176712,120.500992=30.17704,120.500343=30.177382,120.499634=30.178078,120.498116=30.178112,120.498047=30.17944,120.495033=30.180347,120.492989=30.187136,120.477554=30.187773,120.476074=30.188334,120.474762=30.189026,120.473076=30.18948,120.471954=30.190174,120.470055=30.19043,120.469368=30.190702,120.468613=30.191362,120.466667=30.192604,120.4627=30.194731,120.455681=30.195213,120.454102=30.195438,120.453362=30.195721,120.452454=30.195938,120.451752=30.196253,120.450684=30.196594,120.449562=30.197277,120.447281=30.197855,120.445366=30.198187,120.444252=30.198555,120.442894=30.198971,120.441246=30.199209,120.440239=30.1996,120.438393=30.199923,120.436722=30.200378,120.433952=30.200556,120.432678=30.200621,120.432121=30.200802,120.430557=30.200947,120.429001=30.201094,120.427116=30.201416,120.422073=30.201593,120.419296=30.201767,120.417221=30.202005,120.415207=30.202282,120.413307=30.202742,120.410774=30.202877,120.410156=30.203056,120.409309=30.203312,120.408234=30.203716,120.406693=30.204254,120.404816=30.204721,120.403343=30.2052,120.401962=30.205507,120.401123=30.205873,120.400169=30.206242,120.399246=30.206627,120.398338=30.207277,120.396881=30.20793,120.395531=30.210278,120.390793=30.211288,120.388771=30.211584,120.388176=30.212063,120.387215=30.21221,120.38694=30.2124,120.386551=30.212551,120.386238=30.213858,120.383606=30.215134,120.381035=30.215752,120.379723=30.215816,120.379585=30.216129,120.378914=30.217356,120.376083=30.218161,120.374054=30.218624,120.372803=30.218624,120.372803=30.218998,120.371765=30.219362,120.370735=30.219858,120.369247=30.220524,120.367126=30.220791,120.366211=30.220934,120.365715=30.221502,120.363617=30.221905,120.362038=30.222214,120.360741=30.222473,120.359581=30.222813,120.357895=30.223091,120.35656=30.223225,120.355904=30.223387,120.355141=30.225086,120.347031=30.225611,120.344589=30.225693,120.344238=30.226198,120.342033=30.226862,120.339333=30.227491,120.336945=30.227991,120.335121=30.22858,120.333061=30.229652,120.329575=30.230843,120.325974=30.232113,120.322266=30.234375,120.315636=30.23546,120.312469=30.236393,120.309921=30.236723,120.309082=30.237244,120.307838=30.237877,120.30632=30.238594,120.304726=30.239061,120.303734=30.239862,120.302109=30.240404,120.301041=30.240797,120.300293=30.24132,120.299309=30.244188,120.294106=30.244804,120.292984=30.245333,120.292038=30.245359,120.291985=30.245478,120.291763=30.245621,120.291481=30.246798,120.28936=30.247496,120.288124=30.247591,120.287964=30.247778,120.28759=30.249294,120.284584=30.250231,120.282631=30.250916,120.281143=30.252136,120.27832=30.252226,120.278107=30.256346,120.267876=30.260988,120.256348=30.261372,120.255386=30.261753,120.254471=30.261898,120.254135=30.262695,120.252373=30.263216,120.251312=30.263943,120.249954=30.266121,120.246162=30.26733,120.244057=30.267523,120.243721=30.269354,120.24054=30.272535,120.234993=30.272911,120.234375=30.272968,120.234276=30.273373,120.233696=30.273663,120.233315=30.27404,120.232857=30.274527,120.232361=30.274956,120.231979=30.275639,120.231476=30.276234,120.231094=30.276939,120.230728=30.277382,120.230545=30.277691,120.230423=30.278107,120.230293=30.27832,120.23024=30.278481,120.230194=30.279245,120.230057=30.27994,120.230003=30.280243,120.22998=30.28227,120.229881=30.283316,120.229851=30.285036,120.22979=30.285446,120.229767=30.285824,120.229752=30.286394,120.229736=30.286858,120.229706=30.287304,120.229691=30.288181,120.229652=30.288181,120.229652=30.288397,120.22982=30.289127,120.230392=30.289307,120.230515=30.289335,120.23053=30.289499,120.230614=30.289814,120.230713=30.290031,120.230736=30.290274,120.230743=30.292149,120.230797=30.2929,120.23082=30.293901,120.230873=30.294193,120.230927=30.294498,120.230995=30.294804,120.231094=30.295105,120.231209=30.295364,120.231331=30.295902,120.231621=30.297195,120.232361=30.298498,120.233086=30.299345,120.233513=30.300291,120.233917=30.300678,120.234085=30.300934,120.234261=30.300934,120.234261=30.301062,120.234375=30.30267,120.235748=30.302834,120.235909=30.303064,120.23616=30.303383,120.236549=30.303661,120.236938=30.303953,120.237404=30.304102,120.237671=30.304262,120.237976=30.304522,120.238594=30.304522,120.238594=30.304722,120.238754=30.304853,120.238869=30.305,120.238976=30.305134,120.239037=30.305309,120.23909=30.305515,120.239113=30.305643,120.239105=30.305855,120.239052=30.306002,120.238976=30.306143,120.238869=30.306276,120.238731=30.306402,120.238571=30.306515,120.238304=30.306566,120.238113=30.306589,120.237953=30.306589,120.237762=30.306562,120.237518=30.306467,120.237259=30.306366,120.237061=30.306063,120.236481=30.305889,120.235992=30.305811,120.235664=30.305765,120.23539=30.305719,120.234985=30.305716,120.234528=30.305719,120.234375=30.305773,120.233192=30.305929,120.231972=30.30596,120.231735=30.306051,120.231224=30.30608,120.23098=30.306084,120.230743=30.306084,120.230743=30.306047,120.229744=30.306015,120.229446=30.305899,120.22879=30.305876,120.228516=30.305855,120.226997=30.305828,120.226807=30.305786,120.226677=30.305786,120.226326=30.305798,120.223961=30.305815,120.222015=30.30582,120.219719=30.305811,120.219376=30.305794,120.21904=30.305779,120.217583=30.305746,120.216118=30.305664,120.212402=30.30563,120.210335=30.305424,120.203796=30.305082,120.197624=30.305059,120.197212=30.305048,120.196541=30.305056,120.195892=30.305065,120.195236=30.30504,120.193954=30.305017,120.193581=30.304863,120.190895=30.304836,120.19043=30.304813,120.190056=30.30477,120.189224=30.304705,120.188248=30.304653,120.187614=30.304544,120.186905=30.304445,120.186363=30.30402,120.184753=30.303129,120.182114=30.303013,120.181671=30.302795,120.180862=30.302704,120.180504=30.302513,120.179787=30.302513,120.179787=30.302513,120.179718=30.3025,120.179367=30.302486,120.179298=30.302391,120.17897=30.302217,120.178299=30.302217,120.178299=30.302135,120.177917=30.302118,120.177788=30.302126,120.177689=30.302149,120.177589=30.302191,120.177483=30.302248,120.177399=30.302332,120.177315=30.302387,120.177269=30.302635,120.177162=30.304079,120.176826=30.305355,120.176544=30.305515,120.176575=30.306164,120.176414=30.30673,120.176292=30.307356,120.176163=30.308285,120.175949=30.309696,120.175606=30.310751,120.175362=30.310968,120.175316=30.311275,120.175232=30.311302,120.175224=30.311703,120.17514=30.312786,120.174889=30.31414,120.174576=30.314198,120.174568=30.314596,120.174477=30.315134,120.17437=30.315933,120.174194=30.316038,120.174179=30.317257,120.173882=30.317665,120.17379=30.317801,120.173752=30.318178,120.17366=30.31846,120.173592=30.318747,120.173531=30.31893,120.173485=30.319098,120.173439=30.319592,120.173325=30.319675,120.173317=30.320009,120.173233=30.320774,120.173042=30.321415,120.172882=30.322268,120.172661=30.322943,120.172478=30.324892,120.171997=30.325018,120.171967=30.325256,120.171936=30.325506,120.171944=30.32576,120.171974=30.326006,120.172035=30.32616,120.172081=30.326908,120.172348=30.327257,120.172501=30.327751,120.172745=30.328159,120.172981=30.328543,120.173233=30.32892,120.173508=30.32951,120.174004=30.329645,120.174118=30.330095,120.1745=30.330414,120.174759=30.330414,120.174759=30.330347,120.174896";
+        String[] latLngs = str.split("=");
+        for (int i = 0; i < latLngs.length; i++) {
+            insertLatlng(latLngs[i].split(",")[1], latLngs[i].split(",")[0], "3");
+        }
+    }
+
+    public String insertLatlng(String longitude, String latitude, String time) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "insert into lonlat_temp(longitude,latitude,time) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, longitude);
+            ps.setString(2, latitude);
+
+            ps.setString(3, time);
+
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            //CommUtils.insertTransboxErrorFile("insertTest=" + e.getMessage() + "=参数" + t.toString());
+
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        System.out.println("插入完毕");
+        return "";
+    }
+
+    public String updateLatlng(double longitude, double latitude, int id) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "UPDATE transferRecord SET longitude=?,latitude=? WHERE  id =?";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setDouble(1, longitude);
+            ps.setDouble(2, latitude);
+            ps.setInt(3, id);
+
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            //CommUtils.insertTransboxErrorFile("insertTest=" + e.getMessage() + "=参数" + t.toString());
+
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        System.out.println("插入完毕");
+        return "";
+    }
+
+    public boolean getBoxNoStatus(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String organSeg = rs.getString("organSeg");
+                if (organSeg.contains("AP")) {
+                    return true;
+                }
+            } else {
+                // 判断是否存在此箱号
+                sql = "SELECT id FROM box WHERE model = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, boxNo);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getBoxNoStatus=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return false;
+    }
+
+    public String delTestRecord() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "update transferrecord set transfer_id = 1  where transfer_id = (SELECT t.id  FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering')";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            ps.executeUpdate();
+            sql = "DELETE  FROM  record_test";
+            ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertZeroHeight() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, 0);
+            ps.setString(3, "height");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertMinusDistance() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+            ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+            int i3 = threadLocalRandom.nextInt(1, 3);//获取[-10,10)的随机整数
+            CONST.DISTANCE -= i3;
+            if (CONST.DISTANCE < 0) {
+                CONST.DISTANCE = 0;
+            }
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, CONST.DISTANCE);
+            ps.setString(3, "distance");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertMinusHeight() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+            ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+            int i3 = threadLocalRandom.nextInt(1, 4);//获取[-10,10)的随机整数
+            CONST.HEIGHT -= i3;
+            if (CONST.HEIGHT < 0) {
+                CONST.HEIGHT = 0;
+            }
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, CONST.HEIGHT);
+            ps.setString(3, "height");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertPlusHeight() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+            ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+            int i3 = threadLocalRandom.nextInt(2, 5);//获取[-10,10)的随机整数
+            CONST.HEIGHT += i3;
+            if (CONST.HEIGHT > 25) {
+                CONST.HEIGHT = 25;
+            }
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, CONST.HEIGHT);
+            ps.setString(3, "height");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertHeight() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+            ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+            int i3 = threadLocalRandom.nextInt(2, 5);//获取[-10,10)的随机整数
+//            CONST.HEIGHT += i3;
+//            if(CONST.HEIGHT>25){
+//                CONST.HEIGHT = 25;
+//            }
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, CONST.HEIGHT);
+            ps.setString(3, "height");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String insertZeroDistance() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+        String boxNo = "03258";
+
+        String sql = "INSERT  INTO  record_test(recordAt,distance,type) VALUES (?,?,?)";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, gainCurrentTime());
+            ps.setDouble(2, 123);
+            ps.setString(3, "distance");
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+    public String gainCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(new Date());
+    }
+
+    public String gainTransfering(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String id = "1";
+
+        String sql = "SELECT t.id  FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id") + "";
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainTransfering=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return id;
+    }
+
+
+    public String autoTransferOrganSeg(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String organSeg = rs.getString("organSeg");
+                if (organSeg.contains("AP")) {
+                    // 停止转运
+                    return organSeg;
+                }
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("autoTransferOrganSeg=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return null;
+    }
+
+    /**
+     * 获取high_box中未使用的箱号,并标为已使用
+     */
+    public int gainHighBox() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        int boxNo = 0;
+
+        String sql = "SELECT box_no FROM high_box WHERE `use` = 0 limit 1";
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                boxNo = rs.getInt("box_no");
+                sql = "UPDATE high_box SET `use` = 1 WHERE box_no=?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, boxNo);
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainHighBox=" + e.getMessage() + "=参数");
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return boxNo;
+
+    }
+
+    /**
+     * 收集箱子信息
+     */
+    public int setBoxIMEI(String device) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "insert ignore into device_temp(device,createTime) values(?,?)";
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, device);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            ps.setString(2, sdf.format(new Date()));
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("setBoxIMEI=" + e.getMessage() + "=参数device:" + device);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return 0;
+
+    }
+
+    /**
+     * 插入iccid到box表
+     */
+    public int updateIccid(String deviceId, String iccid) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "update box set iccid = ? where deviceId = ?";
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, iccid);
+            ps.setString(2, deviceId);
+
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("updateIccid=" + e.getMessage() + "=参数deviceId:" + deviceId + ",iccid:" + iccid);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return 0;
+
+    }
+
+    public int updateHospital(String name, String longitude, String latitude) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "update hospital set longitude = ?,latitude=? where name = ?";
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, longitude);
+            ps.setString(2, latitude);
+            ps.setString(3, name);
+
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("updateHospital=" + e.getMessage() + "=参数name:" + name + ",latitude:" + latitude + ",longitude:" + longitude);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return 0;
+
+    }
+
+    public String getBoxId(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "select boxid from box where model = ? ";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String boxid = rs.getString("boxid");
+                return boxid;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getBoxId=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return "";
+    }
+
+    public List<String> gainGuaranteeList() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        List<String> list = new ArrayList<String>();
+        String sql = "SELECT type FROM guarantee_type";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+
+                list.add(rs.getString("type"));
+
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainGuaranteeList=" + e.getMessage() + "=参数");
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return list;
+    }
+
+    public List<Map<String, String>> gainHospitalList() {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        List<Map<String, String>> maps = new ArrayList<Map<String, String>>();
+
+        String sql = "SELECT name,address FROM hospital";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("name", rs.getString("name"));
+                map.put("address", rs.getString("address"));
+                maps.add(map);
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("gainHospitalList=" + e.getMessage() + "=参数");
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return maps;
+    }
+
+    public String getOrgan(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        String office = "";
+
+        String sql = "select office from box where model = ? ";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                office = rs.getString("office");
+
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getOrgan=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return office.split("科")[0];
+    }
+
+    public String getBoxNo(String deviceId) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "select model from box where deviceId = ? ";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, deviceId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String boxid = rs.getString("model");
+                return boxid;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getBoxNo=" + e.getMessage() + "=参数deviceId:" + deviceId);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return "";
+    }
+
+    public List<BoxUse> getBoxUses(String hospital) {
+        ResultSet rs = null;
+        ResultSet rsUse = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        List<BoxUse> boxUses = new ArrayList<BoxUse>();
+
+        String sql = "select b.id id,model boxNo,transferStatus from box b,hospital h where b.hosp_id = h.hospitalid and h.`name` = ?  and b.model<>'99999' order by b.model+0";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, hospital);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                BoxUse boxUse = new BoxUse();
+                boxUse.setBoxId(rs.getInt("id"));
+                boxUse.setBoxNo(rs.getString("boxNo"));
+                boxUse.setTransferStatus(rs.getString("transferStatus"));
+                if ("free".equals(boxUse.getTransferStatus())) {
+                    boxUse.setStatus("");
+                    // boxUse.setBoxNo(rs.getString("boxNo"));
+                } else {
+                    boxUse.setStatus("使用中");
+                    // boxUse.setBoxNo(rs.getString("boxNo")+" 使用中");
+                }
+
+                sql = "SELECT t.transferNumber organSeg FROM transfer t ,box b WHERE t.box_id = b.boxid AND b.model = ? AND t.`status`='transfering'";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, boxUse.getBoxNo());
+                rsUse = ps.executeQuery();
+                if (rsUse.next()) {
+                    String organSeg = rsUse.getString("organSeg");
+                    if (organSeg.contains("AP")) {
+                        boxUse.setStatus("自动转运中");
+                        boxUse.setTransferStatus("free");
+                    }
+                }
+
+                boxUses.add(boxUse);
+
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getBoxUses=" + e.getMessage() + "=参数hospital:" + hospital);
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+            connDB.closeAll(rsUse, ps, conn);
+        }
+        return boxUses;
+    }
+
+    public List<TransferRecord> test(String transfer_id, String time,
+                                     String method) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        List<TransferRecord> transferRecords = new ArrayList<TransferRecord>();
+
+        // String sql =
+        // "select b.id id,model boxNo,transferStatus from box b,hospital h where b.hosp_id = h.hospitalid and h.`name` = ?  and b.model<>'99999' order by b.model+0";
+
+        // 调用SQL
+        try {
+
+            String sql = "select tr.id,tr.transferRecordid,tr.transfer_id,tr.type,tr.currentCity,tr.distance,tr.duration,tr.remark,tr.longitude,tr.latitude,tr.temperature,tr.avgTemperature,tr.power,tr.expendPower,tr.humidity,tr.recordAt,tr.dbStatus,tr.createAt,tr.modifyAt,tr.press1,tr.press2,tr.flow1,tr.flow2,tr.pupple,tr.collision,tr.open from transferRecord tr,transfer t where tr.transfer_id = t.id  and t.id = ?     ";
+            // 调用SQL
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, method);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                TransferRecord t = new TransferRecord();
+                t.setTransfer_id(transfer_id);
+                // t.setTransferRecordId(1756);
+                t.setAvgTemperature(rs.getString("avgTemperature"));
+                t.setCreateAt(rs.getString("createAt"));
+                t.setCurrentCity(rs.getString("currentCity"));
+                t.setDbStatus(rs.getString("dbStatus"));
+
+                t.setDistance((int) (Double.parseDouble(rs
+                        .getString("distance")))
+                        + "");
+                t.setDuration(rs.getString("duration"));
+                t.setExpendPower(rs.getString("expendPower"));
+                t.setFlow1(rs.getString("flow1"));
+                t.setFlow2(rs.getString("flow2"));
+                t.setHumidity(rs.getString("humidity"));
+                t.setLatitude(rs.getString("latitude"));
+                t.setLongitude(rs.getString("longitude"));
+                t.setModifyAt(rs.getString("modifyAt"));
+                t.setPower(rs.getString("power"));
+                t.setPress1(rs.getString("press1"));
+                t.setPress2(rs.getString("press2"));
+                String recordAt = rs.getString("recordAt");
+                String re = time + " " + recordAt.split(" ")[1];
+                t.setRecordAt(re);
+
+                t.setRemark(rs.getString("remark"));
+
+                t.setTemperature(rs.getString("temperature"));
+
+                t.setType(rs.getString("type"));
+                t.setPupple(rs.getString("pupple"));
+                t.setCollision((int) (Double.parseDouble(rs
+                        .getString("collision")))
+                        + "");
+                t
+                        .setOpen((int) (Double
+                                .parseDouble(rs.getString("open")))
+                                + "");
+                transferRecords.add(t);
+            }
+
+            for (int i = 0; i < transferRecords.size(); i++) {
+
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("test=" + e.getMessage() + "=参数transfer_id:" + transfer_id + ",time:" + time + ",method:" + method);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return transferRecords;
+    }
+
+    public String insertTest(TransferRecord t) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "insert into transferRecord"
+                + "(transfer_id,createAt,currentCity,dbStatus,distance,duration,expendPower,flow1,flow2,humidity,latitude,longitude,"
+                + "modifyAt,power,press1,press2,recordAt,remark,temperature,type,pupple,collision,open) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, t.getTransfer_id());
+            ps.setString(2, t.getCreateAt());
+
+            ps.setString(3, t.getCurrentCity());
+            ps.setString(4, t.getDbStatus());
+
+            ps.setString(5, t.getDistance());
+            ps.setString(6, t.getDuration());
+            ps.setString(7, t.getExpendPower());
+            ps.setString(8, t.getFlow1());
+            ps.setString(9, t.getFlow2());
+            ps.setString(10, t.getHumidity());
+            ps.setString(11, t.getLatitude());
+            ps.setString(12, t.getLongitude());
+            ps.setString(13, t.getModifyAt());
+            ps.setString(14, t.getPower());
+            ps.setString(15, t.getPress1());
+            ps.setString(16, t.getPress2());
+
+            ps.setString(17, t.getRecordAt());
+
+            ps.setString(18, t.getRemark());
+
+            ps.setString(19, t.getTemperature());
+
+            ps.setString(20, t.getType());
+            ps.setString(21, t.getPupple());
+            ps.setString(22, t.getCollision());
+            ps.setString(23, t.getOpen());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("insertTest=" + e.getMessage() + "=参数" + t.toString());
+
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        System.out.println("插入完毕");
+        return "";
+    }
+
+    public String getHospId(String boxNo) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+
+        String sql = "select hosp_id from box where model = ? ";
+
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, boxNo);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String hosp_id = rs.getString("hosp_id");
+                return hosp_id;
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("getHospId=" + e.getMessage() + "=参数boxNo:" + boxNo);
+
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return "";
+    }
+
+    public int updateBoxStatus(String boxNo, String transferStatus) {
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        conn = connDB.getConnection();
+        int update = 0;
+        String sql = "update box set transferStatus = ?  where model = ? ";
+        // 调用SQL
+        try {
+
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1, transferStatus);
+            ps.setString(2, boxNo);
+            update = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            CommUtils.insertTransboxErrorFile("updateBoxStatus=" + e.getMessage() + "=参数boxNo:" + boxNo + ",transferStatus:" + transferStatus);
+        } finally {
+            connDB.closeAll(rs, ps, conn);
+        }
+        return update;
+    }
+
+    // public static void main(String[] args) {
+    // ConnectionDB connDB = new ConnectionDB();
+    //
+    // // 创建数据库连接对象
+    // Connection conn = null;
+    // ResultSet rs = null;
+    // PreparedStatement ps = null;
+    // conn = connDB.getConnection();
+    // List<OpoInfo> opoInfos = new ArrayList<OpoInfo>();
+    //
+    // // 调用SQL
+    // try {
+    // String sql = "select id,contactName,contactPhone from opo_info";
+    //
+    //
+    // ps = conn.prepareStatement(sql);
+    // rs = ps.executeQuery();
+    // while(rs.next()){
+    // OpoInfo opoInfo = new OpoInfo();
+    // opoInfo.setId(rs.getInt("id"));
+    // opoInfo.setContactName(rs.getString("contactName"));
+    // opoInfo.setContactPhone(rs.getString("contactPhone"));
+    // opoInfos.add(opoInfo);
+    // }
+    // for(int i=0;i<opoInfos.size()/2;i++){
+    // sql =
+    // "insert into opo_info_contact(opoInfoId,contactName,contactPhone) values(?,?,?)";
+    // ps = conn.prepareStatement(sql);
+    // ps.setInt(1, opoInfos.get(i).getId());
+    // ps.setString(2, opoInfos.get(i).getContactName());
+    // ps.setString(3, opoInfos.get(i).getContactPhone());
+    // ps.executeUpdate();
+    // }
+    //
+    // } catch (SQLException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    //
+    // } finally {
+    // connDB.closeAll(rs, ps, conn);
+    // }
+    // }
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.life.utils.CommUtils;
 import com.life.utils.ConnectionDB;
 
 public class MeDao {
@@ -36,6 +37,7 @@ public class MeDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			CommUtils.insertTransboxErrorFile("insertFeedback="+e.getMessage()+"=参数phone:"+phone+",content:"+content);
 
 		} finally {
 			connDB.closeAll(rs, ps, conn);

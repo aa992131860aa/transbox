@@ -77,10 +77,10 @@ public class QRCodeUtil {
             ImageIO.write(image, imageType, outPutImage);  
         } catch (WriterException e) {  
             e.printStackTrace();  
-            //System.out.println("二维码生成失败");  
+
         } catch (IOException e) {  
             e.printStackTrace();  
-            //System.out.println("生成二维码图片失败");  
+
         }  
     }  
       
@@ -131,7 +131,7 @@ public class QRCodeUtil {
             qrcodeHandler.setQrcodeVersion(version);  
             //根据版本计算尺寸  
             int imgSize = 67 + 12 * (version - 1) ;    
-            byte[] contentBytes = content.getBytes("gb2312");    
+            byte[] contentBytes = content.getBytes("utf-8");
             BufferedImage bufImg = new BufferedImage(imgSize , imgSize ,BufferedImage.TYPE_INT_RGB);    
             Graphics2D gs = bufImg.createGraphics();    
             gs.setBackground(Color.WHITE);    
@@ -166,7 +166,7 @@ public class QRCodeUtil {
                     gs.dispose();  
                     bufImg.flush();  
                 }else{  
-                    //System.out.println("Error: login图片还在在！");  
+
                 }  
   
             }  
@@ -204,10 +204,10 @@ public class QRCodeUtil {
 //            QRCodeDecoder decoder = new QRCodeDecoder();    
 //            decodedData = new String(decoder.decode(new ImageUtil(bufImg)), "gb2312");    
 //        } catch (IOException e) {    
-//            System.out.println("Error: " + e.getMessage());    
+//
 //            e.printStackTrace();    
 //        } catch (DecodingFailedException dfe) {    
-//            System.out.println("Error: " + dfe.getMessage());    
+//
 //            dfe.printStackTrace();    
 //        }  
 //        return decodedData;  

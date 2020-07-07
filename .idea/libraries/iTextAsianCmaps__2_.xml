@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="iTextAsianCmaps (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/WebRoot/WEB-INF/lib/iTextAsianCmaps.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

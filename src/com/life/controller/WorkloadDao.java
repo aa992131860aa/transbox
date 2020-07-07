@@ -198,6 +198,7 @@ public class WorkloadDao {
 
 				sql = "select count(t.id) total from transfer t,transfer_group_temp tgt where DATE_FORMAT(t.getTime,'%Y-%m') = ? and t.transferNumber = tgt.organSeg AND t.filterStatus=0 and    tgt.usersIds like '%"
 						+ phone + "%'";
+				conn = connDB.getConnection();
 				ps = conn.prepareStatement(sql);
 				ps.setString(1, time);
 				rs = ps.executeQuery();
@@ -206,7 +207,7 @@ public class WorkloadDao {
 				}
 
 				sql = "select count(t.id) total from transfer t,transfer_group_temp tgt where   t.transferNumber = tgt.organSeg AND t.filterStatus=0 and    tgt.usersIds like '%"
-						+ phone + "%'";
+						+ phone + "%'";	conn = connDB.getConnection();
 				ps = conn.prepareStatement(sql);
 
 				rs = ps.executeQuery();
@@ -431,7 +432,7 @@ public class WorkloadDao {
 		int total = 0;
 		String sql = "select count(t.id) total from transfer t,transfer_group_temp tgt where t.transferNumber = tgt.organSeg AND t.filterStatus=0 and    tgt.usersIds like '%"
 				+ phone + "%'";
-		// System.out.println(sql);
+
 		try {
 
 			ps = conn.prepareStatement(sql);
@@ -635,7 +636,7 @@ public class WorkloadDao {
 			int totalAll = 0;// 全部的总数
 
 			sql = "select count(t.id) total from transfer t,transfer_group_temp tgt where DATE_FORMAT(t.getTime,'%Y-%m') = ? and t.transferNumber = tgt.organSeg AND t.filterStatus=0 and    tgt.usersIds like '%"
-					+ phone + "%'";
+					+ phone + "%'";	conn = connDB.getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, time);
 			rs = ps.executeQuery();
@@ -644,7 +645,7 @@ public class WorkloadDao {
 			}
 
 			sql = "select count(t.id) total from transfer t,transfer_group_temp tgt where   t.transferNumber = tgt.organSeg AND t.filterStatus=0 and    tgt.usersIds like '%"
-					+ phone + "%'";
+					+ phone + "%'";	conn = connDB.getConnection();
 			ps = conn.prepareStatement(sql);
 
 			rs = ps.executeQuery();

@@ -25,7 +25,7 @@ public class Client1 {
 			String str = input.readLine();
 			//发送数据到服务端  
 			out.println(str);
-			out.println(str+"ddd");
+			//out.println(str+"ddd");
 			if("bye".equals(str)){
 				flag = false;
 			}else{

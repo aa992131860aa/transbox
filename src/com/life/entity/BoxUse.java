@@ -39,14 +39,7 @@ public class BoxUse {
 		BoxUse.a = a;
 	}
 	public static void main(String[] args) {
-		BoxUse b = BoxUse.a;
-		BoxUse c = b;
-		b.setBoxNo("bb");
-		System.out.println(a);
-	
-		System.out.println(b);
-		b = new BoxUse();
-		System.out.println(c);
+
 	}
 	@Override
 	public String toString() {

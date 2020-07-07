@@ -48,6 +48,7 @@ public class SmsServlet extends HttpServlet {
 		response. setCharacterEncoding("UTF-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		PrintWriter out = response.getWriter();
 		String phone = request.getParameter("phone");
 		SmsDao smsDao = new SmsDao();
@@ -60,12 +61,20 @@ public class SmsServlet extends HttpServlet {
 			datas.setMsg("参数错误");
 			
 		}
-		//System.out.println("sms.do");
+
 		Gson gson = new Gson();
 		String datasJson = gson.toJson(datas);
 		out.write(datasJson);
 		out.flush();
 		out.close();
+	}
+	public static void main(String[] args) {
+	
+	for(int i=0;i<90;i++){
+		int num= 	(int) (Math.random()*33);
+
+	}
+	
 	}
 
 }

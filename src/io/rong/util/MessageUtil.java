@@ -9,7 +9,7 @@ public class MessageUtil {
 	public static final String MESSAGE_SUBSCIBE = "subscribe";//消息事件类型--订阅事件
 	public static final String MESSAGE_UNSUBSCIBE = "unsubscribe";//消息事件类型--取消订阅事件
 	public static final String MESSAGE_TEXT = "text";//消息类型--文本消息
-	
+
 	/*
 	 * 组装文本消息
 	 */
@@ -35,7 +35,7 @@ public class MessageUtil {
 	 */
 	public static String unsubscribe(String toUserName,String fromUserName){
 		//TODO 可以进行取关后的其他后续业务处理
-		System.out.println("用户："+ fromUserName +"取消关注~");
+
 		return "";
 	}
 

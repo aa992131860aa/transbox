@@ -36,9 +36,9 @@ public class HMACSHA256 {
          sha256_HMAC.init(secret_key);       
          byte[] bytes = sha256_HMAC.doFinal(message.getBytes());   
          hash = byteArrayToHexString(bytes);         
-         System.out.println(hash);    
+         System.out.println(hash);
          } catch (Exception e) {     
-         System.out.println("Error HmacSHA256 ===========" + e.getMessage());   
+
        }       
       return hash;   
      } 

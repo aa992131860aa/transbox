@@ -134,7 +134,7 @@ public class UrlDao {
 		PreparedStatement ps = null;
 		conn = connDB.getConnection();
 		String openId="";
-		String sql = "SELECT union_id FROM users WHERE phone=? AND union_id<>''";
+		String sql = "SELECT weixin_openid union_id FROM users WHERE phone=? AND weixin_openid<>''";
 		boolean isTrue =false;
 		// 调用SQL
 		try {

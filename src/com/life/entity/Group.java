@@ -2,18 +2,28 @@ package com.life.entity;
 
 public class Group {
      private int groupId;
-     private String usersIds;
-     private String organSeg;
-     private String groupName;
-     private String phone;
-     private String wechatUrl;
-     private String photoFile;
-     private String bind;
-     private String isUploadPhoto;
-     private String trueName;
-     private String hospital;
-     private String createTime;
-     
+     private String usersIds="";
+     private String organSeg="";
+     private String groupName="";
+     private String phone="";
+     private String wechatUrl="";
+     private String photoFile="";
+     private String bind="";
+     private String isUploadPhoto="";
+     private String trueName="";
+     private String hospital="";
+     private String createTime="";
+     private String tid="";
+     private String organ="";
+
+	public String getOrgan() {
+		return organ;
+	}
+
+	public void setOrgan(String organ) {
+		this.organ = organ;
+	}
+
 	public int getGroupId() {
 		return groupId;
 	}
@@ -85,6 +95,12 @@ public class Group {
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+	public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
 	}
 	
 	

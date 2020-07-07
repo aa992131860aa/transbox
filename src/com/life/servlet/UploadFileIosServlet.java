@@ -53,18 +53,17 @@ public class UploadFileIosServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		request.setCharacterEncoding("UTF-8");
 		String phone = request.getParameter("phone");
 		String flag = request.getParameter("flag");
 		String photoFile= request.getParameter("photoFile");
-//		System.out.println("phone:"+phone);
-//		System.out.println("photoFile:"+photoFile);
-//		System.out.println("flag:"+flag);
+
 		PrintWriter out = response.getWriter();
 		
 		ServletInputStream is =request.getInputStream();
 	
-		//System.out.println("is:"+is);
+
 		FileOutputStream os = new FileOutputStream("e://QQ1.png");
 		int read =0;
 		byte [] bytes = new byte[1024];
@@ -79,7 +78,7 @@ public class UploadFileIosServlet extends HttpServlet {
 	   static byte[] getImageBinary() {  
 		   String path = CONST.URL_PATH+"images/start.png";
 		   path = "D:\\GoogleDownload\\logo1.png";
-		   //System.out.println("path:"+path);
+
 	       File f = new File(path); 
 	       BufferedImage bi;  
 	       try {  
@@ -88,7 +87,7 @@ public class UploadFileIosServlet extends HttpServlet {
 	           ImageIO.write(bi, "png", baos);  //经测试转换的图片是格式这里就什么格式，否则会失真  
 	           byte[] bytes = baos.toByteArray();  
 	 
-	          // return encoder.encodeBuffer(bytes).trim();  
+
 	           return bytes;
 	       } catch (IOException e) {  
 	           e.printStackTrace();  

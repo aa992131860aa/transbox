@@ -60,6 +60,7 @@ public class OpoServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 

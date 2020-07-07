@@ -24,13 +24,13 @@ public class Test {
 //    static BASE64Decoder decoder = new sun.misc.BASE64Decoder();  
    public static void main(String[] args) throws FileNotFoundException, DocumentException {
 //	 Random random = new Random();
-//	 System.out.println(random.nextInt(3));
+//
 //	byte[] bytes = getImageBinary();
 //	for(int i=0;i<bytes.length;i++){
 //		System.out.print(bytes[i]);
 //	}
 //	
-//	System.out.println();;
+//
 //	base64StringToImage(getImageBinary());
 	   // 1.新建document对象
 	            Document document = new Document();
@@ -51,7 +51,7 @@ public class Test {
    static byte[] getImageBinary() {  
 	   String path = CONST.URL_PATH+"images/start.png";
 	   path = "D:\\GoogleDownload\\logo1.png";
-	   //System.out.println("path:"+path);
+
        File f = new File(path); 
        BufferedImage bi;  
        try {  

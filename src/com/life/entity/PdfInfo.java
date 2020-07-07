@@ -1,7 +1,13 @@
 package com.life.entity;
 
-public class PdfInfo {
-    private int pdfInfoId;
+import java.io.Serializable;
+
+public class PdfInfo implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int pdfInfoId;
     private String url;
     private String organSeg;
     private String phone;

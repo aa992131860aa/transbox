@@ -36,13 +36,13 @@ public class QrImageDao {
 				 boxHosp.setHospitalName(rs.getString("name"));
 				 boxHosp.setHospitalId(rs.getString("hosp_id"));
 				 boxHosp.setBoxNo(rs.getString("boxNo"));
-				 //System.out.println("name:"+rs.getString("name")+",deviceId:"+deviceId);
+
 			 }
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//System.out.println("qrImage:"+e.getMessage());
+
 
 		} finally {
 			connDB.closeAll(rs, ps, conn);

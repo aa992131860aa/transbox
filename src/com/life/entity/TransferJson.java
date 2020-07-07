@@ -1,5 +1,8 @@
 package com.life.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TransferJson {
 	private String transferid= "";
 	private String organSeg= "";
@@ -13,6 +16,7 @@ public class TransferJson {
 	private String blood= "";
 	private String bloodNum= "";
 	private String sampleOrgan= "";
+	private String sampleOrgan1= "";
 	private String sampleOrganNum= "";
 	private String opoName= "";
 	private String contactName= "";
@@ -40,12 +44,120 @@ public class TransferJson {
 	private String modifyOrganSeg = "";
 	private int deviceStatus = 0;
 	private int filterStatus ;
-	
+	private String currentCity="";
+	private String quality= "优良";
 	private String pushException= "";
-	
+	private String pushExceptionTime= "";
+	private String temperature="";
+	private String weather="";
+	private int check = 0;
+	private List<String> temperatureList= new ArrayList<String>();
 	//0 未开始  1为暂停
 	private int pause;
+	private String currentTemperature="";
+	private String avgT="0";
+	private String avgH="0";
+	private String collisionTotal="0";
+	private String tid="";
+	private String groupName="";
 	
+	//无查看权限
+	private String fromCityShow="";
+	
+	
+	
+	
+	
+	public String getFromCityShow() {
+		return fromCityShow;
+	}
+	public void setFromCityShow(String fromCityShow) {
+		this.fromCityShow = fromCityShow;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+	public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+	public String getAvgT() {
+		return avgT;
+	}
+	public void setAvgT(String avgT) {
+		this.avgT = avgT;
+	}
+	public String getAvgH() {
+		return avgH;
+	}
+	public void setAvgH(String avgH) {
+		this.avgH = avgH;
+	}
+	public String getCollisionTotal() {
+		return collisionTotal;
+	}
+	public void setCollisionTotal(String collisionTotal) {
+		this.collisionTotal = collisionTotal;
+	}
+	public String getCurrentTemperature() {
+		return currentTemperature;
+	}
+	public void setCurrentTemperature(String currentTemperature) {
+		this.currentTemperature = currentTemperature;
+	}
+	public int getCheck() {
+		return check;
+	}
+	public void setCheck(int check) {
+		this.check = check;
+	}
+	public String getPushExceptionTime() {
+		return pushExceptionTime;
+	}
+	public void setPushExceptionTime(String pushExceptionTime) {
+		this.pushExceptionTime = pushExceptionTime;
+	}
+	public String getTemperature() {
+		return temperature;
+	}
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
+	public String getWeather() {
+		return weather;
+	}
+	public void setWeather(String weather) {
+		this.weather = weather;
+	}
+	public String getSampleOrgan1() {
+		return sampleOrgan1;
+	}
+	public void setSampleOrgan1(String sampleOrgan1) {
+		this.sampleOrgan1 = sampleOrgan1;
+	}
+	public List<String> getTemperatureList() {
+		return temperatureList;
+	}
+	public void setTemperatureList(List<String> temperatureList) {
+		this.temperatureList = temperatureList;
+	}
+	public String getQuality() {
+		return quality;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	public String getCurrentCity() {
+		return currentCity;
+	}
+	public void setCurrentCity(String currentCity) {
+		this.currentCity = currentCity;
+	}
 	public String getTransferid() {
 		return transferid;
 	}

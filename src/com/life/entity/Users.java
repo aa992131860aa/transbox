@@ -12,8 +12,24 @@ public class Users {
 	   private String isCreate="";
 	   private String postRole = "";
 	   //医院名称
-	   private String name;
+	   private String name="";
+	   private String tid= "";
+	   private String phones ="";
+	   
+	   
 
+	public String getPhones() {
+		return phones;
+	}
+	public void setPhones(String phones) {
+		this.phones = phones;
+	}
+	public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
 	public String getUsersId() {
 		return usersId;
 	}

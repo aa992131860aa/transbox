@@ -1,0 +1,386 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>Amaze UI Examples</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!--
+  <link rel="canonical" href="http://www.example.com/">
+  -->
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a
+  href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div class="index">
+  <div class="logo"></div>
+  <div class="title">
+    杭州莱普晟医疗科技
+  </div>
+  <div class="top-img"></div>
+  <div class="wen-img"></div>
+  <div class="wen-title">
+    中国移植器官转运及质控示范数据平台（OTQC)
+  </div>
+  <div class="num-t-m">
+    3
+  </div>
+  <div class="num-t-w">
+    关于您
+  </div>
+  <div class="num-t-z">
+    /1
+  </div>
+  <div class="num-t-j">
+    请先大致介绍一下自己吧！
+  </div>
+  <div class="num-t-k"></div>
+  <div class="num-t-b"></div>
+  <form class="am-form num-t-d" id="userName" data-am-validator>
+    <fieldset>
+      <div class="am-form-group">
+      <label for="doc-ipt-3" class="am-u-sm-7 am-form-label keshi">您所在科室名称:</label>
+      <div class="am-u-sm-5">
+        <input type="text" id="doc-ipt-3" minlength="2" placeholder="至少填写两个字符" pattern="^[\s\S]*.*[^\s][\s\S]*$" style="font-family: 'PingFang';" required>
+      </div>
+      </div>
+
+      <div class="am-form-group">
+      <label for="doc-ipt-pwd-2" class="am-u-sm-6 am-form-label name">您的姓名:</label>
+      <div class="am-u-sm-6">
+        <input type="text" id="doc-ipt-pwd-2" minlength="2" placeholder="至少填写两个字符" pattern="^[\s\S]*.*[^\s][\s\S]*$" style="font-family: 'PingFang';" required>
+      </div>
+      </div>
+    </fieldset>
+  </form>
+  <div class="num-t-sha"></div>
+  <div class="num-t-sw">
+    设备名称：移动式智能保存转运装置
+  </div>
+  <div class="num-m-m">
+    3
+  </div>
+  <div class="num-m-z">
+    /2
+  </div>
+  <div class="num-m-w">
+    器官云监控APP
+  </div>
+  <div class="num-m-j">
+    告诉我们您在使用中的感受吧！
+  </div>
+  <div class="num-m-k"></div>
+  <div class="num-m-b"></div>
+  <div class="num-m-sha"></div>
+  <div class="num-m-sw">
+    Q1、器官云监控App使用调查
+  </div>
+  <form action="" id="question1" class="am-form" data-am-validator>
+    <fieldset> 
+      <div class="am-form-group num-m-1">
+      <label for="" class="am-form-label am-radio qes-wen">
+         1、您最近使用App的频率？
+      </label>
+      <label class="qes-wen-1">
+        <input type="radio" name="doc-radio-1" value="0"  class="input_st" required>
+          <p class="qes-wen-2">每天都用</p>
+      </label>
+      <label class="qes-wen-1">
+        <input type="radio" name="doc-radio-1" value="1" class="input_st" required>
+        <p class="qes-wen-2">1~2次一周</p>
+      </label>
+      <label class="qes-wen-1">
+        <input type="radio" name="doc-radio-1" value="2" class="input_st" required>
+        <p class="qes-wen-2">1~2次一月</p>
+      </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 1487px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+          2、是否知道如何通过手机新建转运？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-2" value="0"  class="input_st" required>
+            <p class="qes-wen-2">非常清楚</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-2" value="1" class="input_st" required>
+          <p class="qes-wen-2">大概有印象</p>
+        </label><br/>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-2" value="2" class="input_st" required>
+          <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 1649px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+          3.是否知道如何在app中查看转运报告？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-3" value="0"  class="input_st" required>
+            <p class="qes-wen-2">非常清楚</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-3" value="1" class="input_st" required>
+          <p class="qes-wen-2">大概有印象</p>
+        </label><br/>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-3" value="2" class="input_st" required>
+          <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 1811px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+          4.是否知道如何在app中查看当前转运情况？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-4" value="0"  class="input_st" required>
+            <p class="qes-wen-2">非常清楚</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-4" value="1" class="input_st" required>
+          <p class="qes-wen-2">大概有印象</p>
+        </label><br/>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-4" value="2" class="input_st" required>
+          <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 1973px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+          5.您认为通过手机新建转运是否方便？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-5" value="0"  class="input_st" required>
+            <p class="qes-wen-2">非常方便</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-5" value="1" class="input_st" required>
+          <p class="qes-wen-2" style="width: 200%;">一般，通过设备也可新建转运</p>
+        </label><br/>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-5" value="2" class="input_st" required>
+          <p class="qes-wen-2">不方便</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 2135px;">
+        <label for="" class="am-form-label am-radio qes-wen qes-wen-6">
+          6.你认为目前app是否满足了转运过程的所有要求？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-6" value="0"  class="input_st" required>
+            <p class="qes-wen-2">满足需求</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-6" value="1" class="input_st" required>
+          <p class="qes-wen-2" style="width: 131%;">有所欠缺，需要改进</p>
+        </label>
+        <!-- <label class="qes-wen-1">
+          <input type="radio" name="doc-radio-6" value="option3" class="input_st">
+          <p class="qes-wen-2">1~2次一月</p>
+        </label> -->
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 2334px;">
+        <label for="doc-ipt-4" class="am-form-label qes-wen am-u-sm-6">
+          7、对于APP的建议
+        </label>
+        <div class="am-u-sm-6 ">
+          <input type="text" id="doc-ipt-4" style="font-family: 'PingFang';" name="qwen1" required>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <div class="num-l-m">
+    3
+  </div>
+  <div class="num-l-z">
+    /3
+  </div>
+  <div class="num-l-w">
+    转运装置设备
+  </div>
+  <div class="num-l-j">
+    告诉我们您在使用中的感受吧！
+  </div>
+  <div class="num-l-k"></div>
+  <div class="num-l-b"></div>
+  <div class="num-l-sha"></div>
+  <div class="num-l-sw">
+    Q2、转运装置设备使用调查
+  </div>
+  <form action="" id="question2" class="am-form" data-am-validator>
+    <fieldset> 
+      <div class="am-form-group num-m-1" style="position: absolute; top: 2690px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+           1、您最近使用设备的频率？
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc_radio-1" value="0"  class="input_st" required>
+            <p class="qes-wen-2">每天都用</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc_radio-1" value="1" class="input_st" required>
+          <p class="qes-wen-2">1~2次一周</p>
+        </label>
+        <label class="qes-wen-1">
+          <input type="radio" name="doc_radio-1" value="2" class="input_st" required>
+          <p class="qes-wen-2">1~2次一月</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 2809px;">
+        <label for="" class="am-form-label am-radio qes-wen">
+            2、是否知道如何解锁设备？
+        </label>
+        <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-2" value="0"  class="input_st" required>
+              <p class="qes-wen-2">非常清楚</p>
+        </label>
+        <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-2" value="1" class="input_st" required>
+            <p class="qes-wen-2">大概有印象</p>
+        </label><br/>
+        <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-2" value="2" class="input_st" required>
+            <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+        </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 2971px;">
+          <label for="" class="am-form-label am-radio qes-wen">
+            3.是否知道如何通过设备新建转运？
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-3" value="0"  class="input_st" required>
+              <p class="qes-wen-2">非常清楚</p>
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-3" value="1" class="input_st" required>
+            <p class="qes-wen-2">大概有印象</p>
+          </label><br/>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-3" value="2" class="input_st" required>
+            <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+          </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 3133px;">
+          <label for="" class="am-form-label am-radio qes-wen qes-wen-6">
+            4.是否知道开始转运时的注意事项（如勿遮挡红外传感器）？
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-4" value="0"  class="input_st" required>
+              <p class="qes-wen-2">非常清楚</p>
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-4" value="1" class="input_st" required>
+            <p class="qes-wen-2">大概有印象</p>
+          </label><br/>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-4" value="2" class="input_st" required>
+            <p class="qes-wen-2 qes-wen-2_b">不清楚，需要培训</p>
+          </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 3330px;">
+          <label for="" class="am-form-label am-radio qes-wen">
+            5.您认为设备在转运时相较其他厂家设备？
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-5" value="0"  class="input_st" required>
+              <p class="qes-wen-2">非常方便</p>
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-5" value="1" class="input_st" required>
+            <p class="qes-wen-2"  style="width: 200%;">和同类产品差不多</p>
+          </label><br/>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-5" value="2" class="input_st" required>
+            <p class="qes-wen-2">使用不方便</p>
+          </label>
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 3492px;">
+          <label for="" class="am-form-label am-radio qes-wen qes-wen-6">
+            6.你认为设备目前是否满足转运过程的所有要求？
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-6" value="0"  class="input_st" required>
+              <p class="qes-wen-2">满足需求</p>
+          </label>
+          <label class="qes-wen-1">
+            <input type="radio" name="doc_radio-6" value="1" class="input_st" required>
+            <p class="qes-wen-2" style="width: 131%;">有所欠缺，需要改进</p>
+          </label>
+          <!-- <label class="qes-wen-1">
+            <input type="radio" name="doc-radio-6" value="option3" class="input_st">
+            <p class="qes-wen-2">1~2次一月</p>
+          </label> -->
+      </div>
+      <div class="am-form-group num-m-1" style="position: absolute; top: 3648px;">
+          <label for="doc-ipt-5" class="am-form-label qes-wen am-u-sm-6">
+            7、对于APP的建议
+          </label>
+          <div class="am-u-sm-6 ">
+            <input type="text" id="doc-ipt-5" style="font-family: 'PingFang';" name="qwen2" required>
+          </div>
+      </div>
+      <button class="btn" onclick="submitBtn()" type="button" id="btnn"> 
+          <p class="button">点击提交</p>
+        </button>
+        <div class="btnsha"></div>
+        <div class="dimg"></div>
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="my-alert" name="mokuang">
+          <div class="am-modal-dialog">
+            <div class="am-modal-hd"></div>
+            <div class="am-modal-bd">
+              请将问卷填写完整！
+            </div>
+            <div class="am-modal-footer">
+              <span class="am-modal-btn">确定</span>
+            </div>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!-- <script src="assets/js/jquery.min.js"></script> -->
+<!--<![endif]-->
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="assets/js/amazeui.min.js"></script>
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>

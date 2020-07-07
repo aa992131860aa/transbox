@@ -29,6 +29,14 @@ public class RecordDatas {
 	public void setInfo(Object info) {
 		this.info = info;
 	}
-    
-	
+
+	@Override
+	public String toString() {
+		return "RecordDatas{" +
+				"result=" + result +
+				", msg='" + msg + '\'' +
+				", obj=" + obj +
+				", info=" + info +
+				'}';
+	}
 }

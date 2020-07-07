@@ -58,7 +58,7 @@ public class PushMessageDao {
 	/**
 	 * 插入推送信息
 	 * 
-	 * @param phone 本人的电话
+	 * @param
 	 * @param content 推送的内容
 	 * @return type  add(添加好友) system(系统消息) finish(添加好友完成)
 	 */
@@ -80,7 +80,7 @@ public class PushMessageDao {
 			sql += ",";
 			}
 		}
-		//System.out.println(sql);
+
 		
 		// 调用SQL
 		try {
@@ -113,9 +113,10 @@ public class PushMessageDao {
 		PreparedStatement ps = null;
 		conn = connDB.getConnection();
         
-		String sql = "update users set read_push_position = (select max(id) from push ) where user_info_id = ?";
+		String sql = "update users set read_push_position = (select max(id) from push ) where phone = ?";
 		// 调用SQL
 		try {
+
        
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, user_info_id);

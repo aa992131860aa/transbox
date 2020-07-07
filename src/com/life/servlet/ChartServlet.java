@@ -29,6 +29,7 @@ public class ChartServlet extends HttpServlet {
         String url = "http://116.62.28.28:8888/WebReport/ReportServer?formlet=power_line.frm&organSeg=";
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();

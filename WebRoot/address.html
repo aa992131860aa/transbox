@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>下载页</title>
-	</head>
-	
-	
-	<script type="text/javascript">
-	 function openAndroid(){
-	 window.location = 'http://www.lifeperfusor.com/transbox/download/app-release.apk';
-	 }
-	 
-	  function openIos(){
-	 window.location = 'https://itunes.apple.com/cn/app/%E5%99%A8%E5%AE%98%E4%BA%91%E7%9B%91%E6%8E%A7/id1257490826?mt=8';
-	 }
+<head>
+    <meta charset="UTF-8">
+    <title>下载页</title>
+</head>
 
-	/**
-	
-		function submitBtn(){
+
+<script type="text/javascript">
+    function openAndroid() {
+        window.location = 'http://www.lifeperfusor.com/transbox/download/app-release.apk';
+    }
+
+    function openIos() {
+        window.location = 'https://itunes.apple.com/cn/app/%E5%99%A8%E5%AE%98%E4%BA%91%E7%9B%91%E6%8E%A7/id1257490826?mt=8';
+    }
+
+    /**
+
+     function submitBtn(){
 	
     //判断浏览器
     var u = navigator.userAgent;
@@ -67,7 +67,7 @@
     }    
 }
 
-function openApp(src) {
+     function openApp(src) {
 // 通过iframe的方式试图打开APP，如果能正常打开，会直接切换到APP，并自动阻止a标签的默认行为
 // 否则打开a标签的href链接
      var ifr = document.createElement('iframe');
@@ -78,32 +78,32 @@ function openApp(src) {
           document.body.removeChild(ifr);
      },2000);
 }
-*/
-	</script>
-	
-	<style type="text/css"> 
-	  html,body,div{
-	   margin: 0;
-	   padding: 0;
-	  }
-	</style>
-	<body>
-	
-		<div style="width: 100%;">
-			<img src="./images/bg.png" style="width: 100%;">
-		</div>
-		
-		<div style="margin-top: 60px;text-align: center;">
-			  
-			  <img alt="" onclick="openAndroid()" src="./images/Android.png" style="width: 42%;cursor: pointer;">
-			  
-			  <img alt="" onclick="openIos()" src="./images/ios.png" style="width: 42%;margin-left: 4%;cursor: pointer;">
-			
+     */
+</script>
 
-		
-		</div>
+<style type="text/css">
+    html, body, div {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<body>
+<div style="margin-bottom: 20px">dd</div>
 
-	</body>
-	
-	
+<div style="width: 100%;">
+    <img src="./images/bg.png" style="width: 100%;">
+</div>
+
+<div style="margin-top: 60px;text-align: center;">
+
+    <img alt="" onclick="openAndroid()" src="./images/Android.png" style="width: 42%;cursor: pointer;">
+
+    <img alt="" onclick="openIos()" src="./images/ios.png" style="width: 42%;margin-left: 4%;cursor: pointer;">
+
+
+</div>
+
+</body>
+
+
 </html>

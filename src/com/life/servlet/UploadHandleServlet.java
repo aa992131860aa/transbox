@@ -27,7 +27,7 @@ public class UploadHandleServlet extends HttpServlet {
 		File file = new File(savePath);
 		// 判断上传文件的保存目录是否存在
 		if (!file.exists() && !file.isDirectory()) {
-			//System.out.println(savePath + "目录不存在，需要创建");
+
 			// 创建目录
 			file.mkdir();
 		}
@@ -58,12 +58,12 @@ public class UploadHandleServlet extends HttpServlet {
 					String value = item.getString("UTF-8");
 					version = value;
 					// value = new String(value.getBytes("iso8859-1"),"UTF-8");
-					//System.out.println(name + "=" + value);
+
 				} else {// 如果fileitem中封装的是上传文件
 				// 得到上传的文件名称，
 					String filename = item.getName();
 					fileName = filename;
-					//System.out.println(filename);
+
 					if (filename == null || filename.trim().equals("")) {
 						continue;
 					}

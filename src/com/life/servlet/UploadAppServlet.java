@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.life.controller.BoxDao;
 import com.life.controller.UploadAppDao;
 import com.life.entity.Datas;
 import com.life.entity.UploadApp;
@@ -57,6 +58,7 @@ public class UploadAppServlet extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("content-type", "text/html;charset=UTF-8");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
@@ -76,6 +78,11 @@ public class UploadAppServlet extends HttpServlet {
 		}
 		else if ("padNew".equals(action)) {
 			String deviceId = request.getParameter("deviceId");
+			String iccid = request.getParameter("iccid");
+			if(iccid!=null&&!"".equals(iccid)){
+				new BoxDao().updateIccid(deviceId, iccid);
+			}
+		
             UploadApp uploadApp = uploadAppDao.getUploadTop(deviceId);
             if(uploadApp!=null){
            	 datas.setResult(CONST.SEND_OK);
